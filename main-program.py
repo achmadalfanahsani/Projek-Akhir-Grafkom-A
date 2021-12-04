@@ -1,3 +1,4 @@
+from sys import float_repr_style
 import OpenGL.GL
 from OpenGL.GL.glget import GLsize
 import OpenGL.GLUT
@@ -8,8 +9,9 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 
-from gambar import *
-from angka import *
+from maze import *
+from colosion_point import *
+from colosion_lawan import *
 
 
 # fungsi iterasi program
@@ -31,6 +33,7 @@ deltaY = 0
 boolGerakY = False
 boolgerakHorizontal=False
 recordK1 = [False,]
+aksiColosion  = [False, True]
 colosionX1 = 195
 colosionX2 = 205
 colosionY1 = 200
@@ -40,32 +43,68 @@ gerakKotakY = 1
 
 # karakter lain ?? coming soon
 
+# lawan 1
+dy_lw1 = 0
+bg_lw1_y = False
+g_lw1 = 1
+cl_lw1_y1 = 229
+cl_lw1_y2 = 246
+cl_lw1_x1 = 102
+cl_lw1_x2 = 119
+
 
 def keyboard_coba(key, x, y):
     global boolGerakX
     global boolGerakY
     global boolgerakHorizontal
     global recordK1
+    global aksiColosion
 
     recordK1.pop()
+    
+    
     if key == GLUT_KEY_UP:
-        boolgerakHorizontal=False
-        boolGerakY = True
+        if aksiColosion[0]!='atas':
+            boolgerakHorizontal=False
+            boolGerakY = True
+        else:
+            boolgerakHorizontal = None
+            boolGerakY = False
         recordK1.append('atas')
+        aksiColosion.clear()
+        aksiColosion.append('a')
     elif  key == GLUT_KEY_DOWN:
-        boolgerakHorizontal=False
-        boolGerakY = False
+        if aksiColosion[0] != 'bawah':
+            boolgerakHorizontal=False
+            boolGerakY = False
+        else:
+            boolgerakHorizontal = None
+            boolGerakX = None
         recordK1.append('bawah')
+        aksiColosion.clear()
+        aksiColosion.append('b')
         
     elif key == GLUT_KEY_RIGHT:
-        boolgerakHorizontal=True
-        boolGerakX = True
+        if aksiColosion[0] != 'kanan':
+            boolgerakHorizontal=True
+            boolGerakX = True
+        else:
+            boolgerakHorizontal = None
+            boolGerakX = None
         recordK1.append('kanan')
+        aksiColosion.clear()
+        aksiColosion.append('ka')
        
     elif key==GLUT_KEY_LEFT:
-        boolgerakHorizontal=True
-        boolGerakX = False
+        if aksiColosion[0] != 'kiri':
+            boolgerakHorizontal=True
+            boolGerakX = False
+        else:
+            boolgerakHorizontal = None
+            boolGerakX = None
         recordK1.append('kiri')
+        aksiColosion.clear()
+        aksiColosion.append('ka')
        
 
 
@@ -85,13 +124,44 @@ def timer1(value1): #fungsi timer
     global gerakKotakY
     global recordK1
     global boolgerakHorizontal
-    
+    global aksiColosion
 
+    #lawan1
+    global bg_lw1_y
+    global dy_lw1
+    global g_lw1
+    global cl_lw1_y1
+    global cl_lw1_y2
+    global cl_lw1_x1
+    global cl_lw1_x2
     
+    # print(aksiColosion)
+    
+    if len(aksiColosion)==2:
+        aksiColosion.pop(0)
     glutTimerFunc(1000//30, timer1, 0) 
-
     # kotak
-    if boolGerakY == True and colosionY2<374 and boolgerakHorizontal==False :
+    if aksiColosion[0] == 'kanan':
+        deltaX += 0
+        colosionX1 += 0
+        colosionX2 += 0    
+
+    elif aksiColosion[0] == 'kiri':
+        deltaX -= 0
+        colosionX1 -= 0
+        colosionX2 -= 0
+
+    elif aksiColosion[0] == 'atas':
+        deltaY += 0
+        colosionY2 += 0
+        colosionY1 += 0
+
+    elif aksiColosion[0] == 'bawah':
+        deltaY -= 0
+        colosionY2 -= 0
+        colosionY1 -= 0
+        
+    elif boolGerakY == True and colosionY2<374 and boolgerakHorizontal==False :
         deltaY += gerakKotakY
         colosionY2 += gerakKotakY
         colosionY1 += gerakKotakY
@@ -105,7 +175,6 @@ def timer1(value1): #fungsi timer
         deltaX -= gerakKotakX
         colosionX1 -= gerakKotakX
         colosionX2 -= gerakKotakX
-
         
     elif boolGerakX == True and colosionX2<367 and boolgerakHorizontal==True:
         deltaX += gerakKotakX
@@ -116,108 +185,165 @@ def timer1(value1): #fungsi timer
     # print('colosion Y1 =', colosionY1)
     # print('colosion Y2 =', colosionY2)
     # print()
+    
+
 
 
     if (recordK1[0] == 'kiri') or (recordK1[0] == 'kanan'):
-
-        # colosion maze : dari kiri atau kanan
         # gambar 1
-        if ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 60<=colosionX1<=100) or ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 60<=colosionX2<=100):
-            boolgerakHorizontal = False
+        # nabrak ke kiri
+        if ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 60<=colosionX1<=100):
+            aksiColosion.append('kiri')
+        # nabrak ke kanan
+        elif ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 60<=colosionX2<=100):
+            aksiColosion.append('kanan')
         # gambar 2
-        elif ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 120<=colosionX1<=168) or ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 120<=colosionX2<=168):
-            boolgerakHorizontal = False
+        elif ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 120<=colosionX1<=168):
+            aksiColosion.append('kiri')
+        elif((324<=colosionY1<=350 or 324<=colosionY2<=350) and 120<=colosionX2<=168):
+            aksiColosion.append('kanan')        
         # gambar 3
-        elif ((324<=colosionY1<=374 or 324<=colosionY2<=374) and 191<=colosionX1<=206) or ((324<=colosionY1<=374 or 324<=colosionY2<=374) and 191<=colosionX2<=206):
-            boolGerakY = False
-            boolgerakHorizontal = False
+        elif ((324<=colosionY1<=374 or 324<=colosionY2<=374) and 191<=colosionX1<=206):
+            aksiColosion.append('kiri')        
+        elif((324<=colosionY1<=374 or 324<=colosionY2<=374) and 191<=colosionX2<=206):
+            aksiColosion.append('kanan')       
         # gambar 4
-        elif ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 230<=colosionX1<=279) or ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 230<=colosionX2<=279):
-            boolgerakHorizontal = False
+        elif ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 230<=colosionX1<=279):
+            aksiColosion.append('kiri')       
+        elif((324<=colosionY1<=350 or 324<=colosionY2<=350) and 230<=colosionX2<=279):
+            aksiColosion.append('kanan')       
         # gambar 5
-        elif ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 300<=colosionX1<=340) or ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 300<=colosionX2<=340):
-            boolgerakHorizontal = False
+        elif ((324<=colosionY1<=350 or 324<=colosionY2<=350) and 300<=colosionX1<=340):
+            aksiColosion.append('kiri')        
+        elif((324<=colosionY1<=350 or 324<=colosionY2<=350) and 300<=colosionX2<=340):
+            aksiColosion.append('kanan')        
         # gambar 6
-        elif ((289<=colosionY1<=303 or 289<=colosionY2<=303) and 60<=colosionX1<=100) or ((289<=colosionY1<=303 or 289<=colosionY2<=303) and 60<=colosionX2<=100):
-            boolgerakHorizontal = False
+        elif ((289<=colosionY1<=303 or 289<=colosionY2<=303) and 60<=colosionX1<=100):
+            aksiColosion.append('kiri')       
+        elif((289<=colosionY1<=303 or 289<=colosionY2<=303) and 60<=colosionX2<=100):
+            aksiColosion.append('kanan')      
         # gambar 7
-        elif ((220<=colosionY1<=303 or 220<=colosionY2<=303) and 120<=colosionX1<=134) or ((220<=colosionY1<=303 or 220<=colosionY2<=303) and 120<=colosionX2<=134):
-            boolgerakHorizontal = False
+        elif ((220<=colosionY1<=303 or 220<=colosionY2<=303) and 120<=colosionX1<=134):
+            aksiColosion.append('kiri')       
+        elif ((220<=colosionY1<=303 or 220<=colosionY2<=303) and 120<=colosionX2<=134):
+            aksiColosion.append('kanan')        
         # gambar 8
-        elif ((288<=colosionY1<=303 or 288<=colosionY2<=303) and 157<=colosionX1<=242) or ((288<=colosionY1<=303 or 288<=colosionY2<=303) and 157<=colosionX2<=242):
-            boolgerakHorizontal = False
+        elif ((288<=colosionY1<=303 or 288<=colosionY2<=303) and 157<=colosionX1<=242):
+            aksiColosion.append('kiri')       
+        elif ((288<=colosionY1<=303 or 288<=colosionY2<=303) and 157<=colosionX2<=242):
+            aksiColosion.append('kanan')       
         # gambar 9
-        elif ((220<=colosionY1<=303 or 220<=colosionY2<=303) and 265<=colosionX1<=279) or ((220<=colosionY1<=303 or 220<=colosionY2<=303) and 265<=colosionX2<=279):
-            boolgerakHorizontal = False
+        elif ((220<=colosionY1<=303 or 220<=colosionY2<=303) and 265<=colosionX1<=279):
+            aksiColosion.append('kiri')       
+        elif ((220<=colosionY1<=303 or 220<=colosionY2<=303) and 265<=colosionX2<=279):
+            aksiColosion.append('kanan')      
         # gambar 10
-        elif ((289<=colosionY1<=303 or 289<=colosionY2<=303) and 300<=colosionX1<=340) or ((289<=colosionY1<=303 or 289<=colosionY2<=303) and 300<=colosionX2<=340):
-            boolgerakHorizontal = False
+        elif ((289<=colosionY1<=303 or 289<=colosionY2<=303) and 300<=colosionX1<=340):
+            aksiColosion.append('kiri')       
+        elif ((289<=colosionY1<=303 or 289<=colosionY2<=303) and 300<=colosionX2<=340):
+            aksiColosion.append('kanan')      
         # gambar 11
-        elif ((220<=colosionY1<=267 or 220<=colosionY2<=267) and 30<=colosionX1<=100) or ((220<=colosionY1<=267 or 220<=colosionY2<=267) and 30<=colosionX2<=100):
-            boolgerakHorizontal = False
+        elif ((220<=colosionY1<=267 or 220<=colosionY2<=267) and 30<=colosionX1<=100):
+            aksiColosion.append('kiri')     
+        elif ((220<=colosionY1<=267 or 220<=colosionY2<=267) and 30<=colosionX2<=100):
+            aksiColosion.append('kanan')     
         # gambar 12
-        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 30<=colosionX1<=100) or ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 30<=colosionX2<=100):
-            boolgerakHorizontal = False
+        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 30<=colosionX1<=100):
+            aksiColosion.append('kiri')        
+        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 30<=colosionX2<=100):
+            aksiColosion.append('kanan')        
         # gambar 13
-        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 120<=colosionX1<=135) or ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 120<=colosionX2<=135):
-            boolgerakHorizontal = False
+        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 120<=colosionX1<=135):
+            aksiColosion.append('kiri')       
+        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 120<=colosionX2<=135):
+            aksiColosion.append('kanan')       
         # gambar 14
-        elif ((181<=colosionY1<=267 or 181<=colosionY2<=267) and 156<=colosionX1<=167) or ((181<=colosionY1<=267 or 181<=colosionY2<=267) and 156<=colosionX2<=167):
-            boolgerakHorizontal = False
+        elif ((181<=colosionY1<=267 or 181<=colosionY2<=267) and 156<=colosionX1<=167):
+            aksiColosion.append('kiri')       
+        elif ((181<=colosionY1<=267 or 181<=colosionY2<=267) and 156<=colosionX2<=167):
+            aksiColosion.append('kanan')       
         # gambar 15
-        elif ((181<=colosionY1<=267 or 181<=colosionY2<=267) and 231<=colosionX1<=242) or ((181<=colosionY1<=267 or 181<=colosionY2<=267) and 231<=colosionX2<=242):
-            boolgerakHorizontal = False
+        elif ((181<=colosionY1<=267 or 181<=colosionY2<=267) and 231<=colosionX1<=242):
+            aksiColosion.append('kiri')       
+        elif ((181<=colosionY1<=267 or 181<=colosionY2<=267) and 231<=colosionX2<=242):
+            aksiColosion.append('kanan')       
         # # gambar 16
         # elif ((220<=colosionY1<=303 or 220<=colosionY2<=303) and 265<=colosionX1<=279) or ((220<=colosionY1<=303 or 220<=colosionY2<=303) and 265<=colosionX2<=279):
-        #     boolgerakHorizontal = False
+        #    
         # gambar 17
-        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 265<=colosionX1<=279) or ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 265<=colosionX2<=279):
-            boolgerakHorizontal = False
+        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 265<=colosionX1<=279):
+            aksiColosion.append('kiri')       
+        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 265<=colosionX2<=279):
+            aksiColosion.append('kanan')     
         # gambar 18
-        elif ((220<=colosionY1<=267 or 220<=colosionY2<=267) and 300<=colosionX1<=367) or ((220<=colosionY1<=267 or 220<=colosionY2<=267) and 300<=colosionX2<=367):
-            boolgerakHorizontal = False
+        elif ((220<=colosionY1<=267 or 220<=colosionY2<=267) and 300<=colosionX1<=367):
+            aksiColosion.append('kiri')     
+        elif ((220<=colosionY1<=267 or 220<=colosionY2<=267) and 300<=colosionX2<=367):
+            aksiColosion.append('kanan')      
         # gambar 19
-        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 300<=colosionX1<=367) or ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 300<=colosionX2<=367):
-            boolgerakHorizontal = False
+        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 300<=colosionX1<=367):
+            aksiColosion.append('kiri')       
+        elif ((147<=colosionY1<=196 or 147<=colosionY2<=196) and 300<=colosionX2<=367):
+            aksiColosion.append('kanan')       
         # gambar 20
-        elif ((75<=colosionY1<=91 or 75<=colosionY2<=91) and 30<=colosionX1<=63) or ((75<=colosionY1<=91 or 75<=colosionY2<=91) and 30<=colosionX2<=63):
-            boolgerakHorizontal = False
+        elif ((75<=colosionY1<=91 or 75<=colosionY2<=91) and 30<=colosionX1<=63):
+            aksiColosion.append('kiri')       
+        elif ((75<=colosionY1<=91 or 75<=colosionY2<=91) and 30<=colosionX2<=63):
+            aksiColosion.append('kanan')       
         # gambar 21
-        elif ((75<=colosionY1<=127 or 75<=colosionY2<=127) and 85<=colosionX1<=100) or ((75<=colosionY1<=127 or 75<=colosionY2<=127) and 85<=colosionX2<=100):
-            boolgerakHorizontal = False
+        elif ((75<=colosionY1<=127 or 75<=colosionY2<=127) and 85<=colosionX1<=100):
+            aksiColosion.append('kiri')       
+        elif ((75<=colosionY1<=127 or 75<=colosionY2<=127) and 85<=colosionX2<=100):
+            aksiColosion.append('kanan')      
         # gambar 22
-        elif ((110<=colosionY1<=127 or 110<=colosionY2<=127) and 120<=colosionX1<=170) or ((110<=colosionY1<=127 or 110<=colosionY2<=127) and 120<=colosionX2<=170):
-            boolgerakHorizontal = False
+        elif ((110<=colosionY1<=127 or 110<=colosionY2<=127) and 120<=colosionX1<=170):
+            aksiColosion.append('kiri')      
+        elif ((110<=colosionY1<=127 or 110<=colosionY2<=127) and 120<=colosionX2<=170):
+            aksiColosion.append('kanan')      
         # gambar 23
-        elif ((147<=colosionY1<=163 or 147<=colosionY2<=163) and 156<=colosionX1<=241) or ((147<=colosionY1<=163 or 147<=colosionY2<=163) and 156<=colosionX2<=241):
-            boolgerakHorizontal = False
+        elif ((147<=colosionY1<=163 or 147<=colosionY2<=163) and 156<=colosionX1<=241):
+            aksiColosion.append('kiri')      
+        elif ((147<=colosionY1<=163 or 147<=colosionY2<=163) and 156<=colosionX2<=241):
+            aksiColosion.append('kanan')      
         # gambar 24
-        elif ((110<=colosionY1<=127 or 110<=colosionY2<=127) and 227<=colosionX1<=279) or ((110<=colosionY1<=127 or 110<=colosionY2<=127) and 227<=colosionX2<=279):
-            boolgerakHorizontal = False
+        elif ((110<=colosionY1<=127 or 110<=colosionY2<=127) and 227<=colosionX1<=279):
+            aksiColosion.append('kiri')      
+        elif ((110<=colosionY1<=127 or 110<=colosionY2<=127) and 227<=colosionX2<=279):
+            aksiColosion.append('kanan')      
         # gambar 25
-        elif ((75<=colosionY1<=127 or 75<=colosionY2<=127) and 300<=colosionX1<=315) or ((75<=colosionY1<=127 or 75<=colosionY2<=127) and 300<=colosionX2<=315):
-            boolgerakHorizontal = False
+        elif ((75<=colosionY1<=127 or 75<=colosionY2<=127) and 300<=colosionX1<=315):
+            aksiColosion.append('kiri')      
+        elif ((75<=colosionY1<=127 or 75<=colosionY2<=127) and 300<=colosionX2<=315):
+            aksiColosion.append('kanan')
         # gambar 26
-        elif ((40<=colosionY1<=55 or 40<=colosionY2<=55) and 60<=colosionX1<=169) or ((40<=colosionY1<=55 or 40<=colosionY2<=55) and 60<=colosionX2<=169):
-            boolgerakHorizontal = False
+        elif ((40<=colosionY1<=55 or 40<=colosionY2<=55) and 60<=colosionX1<=169):
+            aksiColosion.append('kiri')
+        elif ((40<=colosionY1<=55 or 40<=colosionY2<=55) and 60<=colosionX2<=169):
+            aksiColosion.append('kanan')        
         # gambar 27
-        elif ((75<=colosionY1<=90 or 75<=colosionY2<=90) and 155<=colosionX1<=242) or ((75<=colosionY1<=90 or 75<=colosionY2<=90) and 155<=colosionX2<=242):
-            boolgerakHorizontal = False
+        elif ((75<=colosionY1<=90 or 75<=colosionY2<=90) and 155<=colosionX1<=242):
+            aksiColosion.append('kiri')
+        elif ((75<=colosionY1<=90 or 75<=colosionY2<=90) and 155<=colosionX2<=242):
+            aksiColosion.append('kanan')
         # gambar 28
-        elif ((40<=colosionY1<=55 or 40<=colosionY2<=55) and 229<=colosionX1<=340) or ((40<=colosionY1<=55 or 40<=colosionY2<=55) and 229<=colosionX2<=340):
-            boolgerakHorizontal = False
+        elif ((40<=colosionY1<=55 or 40<=colosionY2<=55) and 229<=colosionX1<=340):
+            aksiColosion.append('kiri')
+        elif ((40<=colosionY1<=55 or 40<=colosionY2<=55) and 229<=colosionX2<=340):
+            aksiColosion.append('kanan')
         # gambar 29
-        elif ((75<=colosionY1<=91 or 75<=colosionY2<=91) and 337<=colosionX1<=367) or ((75<=colosionY1<=91 or 75<=colosionY2<=91) and 337<=colosionX2<=367):
-            boolgerakHorizontal = False
+        elif ((75<=colosionY1<=91 or 75<=colosionY2<=91) and 337<=colosionX1<=367):
+            aksiColosion.append('kiri')
+        elif ((75<=colosionY1<=91 or 75<=colosionY2<=91) and 337<=colosionX2<=367):
+            aksiColosion.append('kanan')
         
-
+             
 
 
 
         # colosion point
         # # point 1
         # elif ((349<=colosionY1<=366 or 349<=colosionY2<=366) and 36<=colosionX1<=53) or ((349<=colosionY1<=366 or 349<=colosionY2<=366) and 36<=colosionX2<=53):
-        #     boolgerakHorizontal = False
+        #    boolgerakHorizontal = False
         # # point 2
         # elif ((24<=colosionY1<=41 or 24<=colosionY2<=41) and 36<=colosionX1<=53) or ((24<=colosionY1<=41 or 24<=colosionY2<=41) and 36<=colosionX2<=53):
         #     boolgerakHorizontal = False
@@ -251,95 +377,151 @@ def timer1(value1): #fungsi timer
         
     # colosion maze : dari atas atau bawah 
     elif (recordK1[0] == 'atas') or (recordK1[0] == 'bawah'):
+
         # gambar 1
-        if ((100>=colosionX1>=60 or 60<=colosionX2<=100) and 350>=colosionY2>=324) or ((100>=colosionX1>=60 or 60<=colosionX2<=100) and 350>=colosionY1>=324):
-            boolgerakHorizontal = True
+        if ((100>=colosionX1>=60 or 60<=colosionX2<=100) and colosionY2==324): 
+            aksiColosion.append('atas')
+        elif ((100>=colosionX1>=60 or 60<=colosionX2<=100) and 350>=colosionY1>=324):
+            aksiColosion.append('bawah')
         # gambar 2
-        elif ((168>=colosionX1>=120 or 120<=colosionX2<=168) and 350>=colosionY2>=324) or ((168>=colosionX1>=120 or 120<=colosionX2<=168) and 350>=colosionY1>=324):
-            boolgerakHorizontal = True
+        elif ((168>=colosionX1>=120 or 120<=colosionX2<=168) and 350>=colosionY2>=324):
+            aksiColosion.append('atas')
+        elif ((168>=colosionX1>=120 or 120<=colosionX2<=168) and 350>=colosionY1>=324):
+            aksiColosion.append('bawah')
         # gambar 3
-        elif ((206>=colosionX1>=191 or 191<=colosionX2<=206) and 350>=colosionY2>=324) or ((206>=colosionX1>=191 or 191<=colosionX2<=206) and 350>=colosionY1>=324):
-            boolgerakHorizontal = True
+        elif ((206>=colosionX1>=191 or 191<=colosionX2<=206) and 350>=colosionY2>=324):
+            aksiColosion.append('atas')
+        elif ((206>=colosionX1>=191 or 191<=colosionX2<=206) and 350>=colosionY1>=324):
+            aksiColosion.append('bawah')
         # gambar  4
-        elif ((279>=colosionX1>=230 or 230<=colosionX2<=279) and 350>=colosionY2>=324) or ((279>=colosionX1>=230 or 230<=colosionX2<=279) and 350>=colosionY1>=324):
-            boolgerakHorizontal = True
+        elif ((279>=colosionX1>=230 or 230<=colosionX2<=279) and 350>=colosionY2>=324):
+            aksiColosion.append('atas')
+        elif ((279>=colosionX1>=230 or 230<=colosionX2<=279) and 350>=colosionY1>=324):
+            aksiColosion.append('bawah')
         # gambar  5
-        elif ((340>=colosionX1>=300 or 300<=colosionX2<=340) and 350>=colosionY2>=324) or ((340>=colosionX1>=300 or 300<=colosionX2<=340) and 350>=colosionY1>=324):
-            boolgerakHorizontal = True
+        elif ((340>=colosionX1>=300 or 300<=colosionX2<=340) and 350>=colosionY2>=324):
+            aksiColosion.append('atas')
+        elif ((340>=colosionX1>=300 or 300<=colosionX2<=340) and 350>=colosionY1>=324):
+            aksiColosion.append('bawah')
         # gambar  6
-        elif ((100>=colosionX1>=60 or 60<=colosionX2<=100) and 303>=colosionY2>=289) or ((100>=colosionX1>=60 or 60<=colosionX2<=100) and 303>=colosionY1>=289):
-            boolgerakHorizontal = True
+        elif ((100>=colosionX1>=60 or 60<=colosionX2<=100) and 303>=colosionY2>=289):
+            aksiColosion.append('atas')
+        elif ((100>=colosionX1>=60 or 60<=colosionX2<=100) and 303>=colosionY1>=289):
+            aksiColosion.append('bawah')
         # gambar  7
-        elif ((134>=colosionX1>=120 or 120<=colosionX2<=134) and 303>=colosionY2>=220) or ((134>=colosionX1>=120 or 120<=colosionX2<=134) and 303>=colosionY1>=220):
-            boolgerakHorizontal = True
+        elif ((134>=colosionX1>=120 or 120<=colosionX2<=134) and 303>=colosionY2>=220):
+            aksiColosion.append('atas')
+        elif ((134>=colosionX1>=120 or 120<=colosionX2<=134) and 303>=colosionY1>=220):
+            aksiColosion.append('bawah')
         # gambar  8
-        elif ((242>=colosionX1>=157 or 157<=colosionX2<=242) and 303>=colosionY2>=288) or ((242>=colosionX1>=157 or 157<=colosionX2<=242) and 303>=colosionY1>=288):
-            boolgerakHorizontal = True
+        elif ((242>=colosionX1>=157 or 157<=colosionX2<=242) and 303>=colosionY2>=288):
+            aksiColosion.append('atas')
+        elif ((242>=colosionX1>=157 or 157<=colosionX2<=242) and 303>=colosionY1>=288):
+            aksiColosion.append('bawah')
         # gambar  9
-        elif ((279>=colosionX1>=265 or 265<=colosionX2<=279) and 303>=colosionY2>=220) or ((279>=colosionX1>=265 or 265<=colosionX2<=279) and 303>=colosionY1>=220):
-            boolgerakHorizontal = True
+        elif ((279>=colosionX1>=265 or 265<=colosionX2<=279) and 303>=colosionY2>=220):
+            aksiColosion.append('atas')
+        elif ((279>=colosionX1>=265 or 265<=colosionX2<=279) and 303>=colosionY1>=220):
+            aksiColosion.append('bawah')
         # gambar  10
-        elif ((340>=colosionX1>=300 or 300<=colosionX2<=340) and 303>=colosionY2>=289) or ((340>=colosionX1>=300 or 300<=colosionX2<=340) and 303>=colosionY1>=289):
-            boolgerakHorizontal = True
+        elif ((340>=colosionX1>=300 or 300<=colosionX2<=340) and 303>=colosionY2>=289):
+            aksiColosion.append('atas')
+        elif ((340>=colosionX1>=300 or 300<=colosionX2<=340) and 303>=colosionY1>=289):
+            aksiColosion.append('bawah')
         # gambar  11
-        elif ((100>=colosionX1>=30 or 30<=colosionX2<=100) and 267>=colosionY2>=220) or ((100>=colosionX1>=30 or 30<=colosionX2<=100) and 267>=colosionY1>=220):
-            boolgerakHorizontal = True
+        elif ((100>=colosionX1>=30 or 30<=colosionX2<=100) and 267>=colosionY2>=220):
+            aksiColosion.append('atas')
+        elif ((100>=colosionX1>=30 or 30<=colosionX2<=100) and 267>=colosionY1>=220):
+            aksiColosion.append('bawah')
         # gambar  12
-        elif ((100>=colosionX1>=30 or 30<=colosionX2<=100) and 196>=colosionY2>=147) or ((100>=colosionX1>=30 or 30<=colosionX2<=100) and 196>=colosionY1>=147):
-            boolgerakHorizontal = True
+        elif ((100>=colosionX1>=30 or 30<=colosionX2<=100) and 196>=colosionY2>=147):
+            aksiColosion.append('atas')
+        elif ((100>=colosionX1>=30 or 30<=colosionX2<=100) and 196>=colosionY1>=147):
+            aksiColosion.append('bawah')
         # gambar  13
-        elif ((135>=colosionX1>=120 or 120<=colosionX2<=135) and 196>=colosionY2>=147) or ((135>=colosionX1>=120 or 120<=colosionX2<=135) and 196>=colosionY1>=147):
-            boolgerakHorizontal = True
+        elif ((135>=colosionX1>=120 or 120<=colosionX2<=135) and 196>=colosionY2>=147):
+            aksiColosion.append('atas')
+        elif ((135>=colosionX1>=120 or 120<=colosionX2<=135) and 196>=colosionY1>=147):
+            aksiColosion.append('bawah')
         # gambar  14
-        elif ((167>=colosionX1>=156 or 156<=colosionX2<=167) and 267>=colosionY2>=181) or ((167>=colosionX1>=156 or 156<=colosionX2<=167) and 267>=colosionY1>=181):
-            boolgerakHorizontal = True
+        elif ((167>=colosionX1>=156 or 156<=colosionX2<=167) and 267>=colosionY2>=181):
+            aksiColosion.append('atas')
+        elif ((167>=colosionX1>=156 or 156<=colosionX2<=167) and 267>=colosionY1>=181):
+            aksiColosion.append('bawah')
         # gambar  15
-        elif ((242>=colosionX1>=231 or 231<=colosionX2<=242) and 267>=colosionY2>=181) or ((242>=colosionX1>=231 or 231<=colosionX2<=242) and 267>=colosionY1>=181):
-            boolgerakHorizontal = True
+        elif ((242>=colosionX1>=231 or 231<=colosionX2<=242) and 267>=colosionY2>=181):
+            aksiColosion.append('atas')
+        elif ((242>=colosionX1>=231 or 231<=colosionX2<=242) and 267>=colosionY1>=181):
+            aksiColosion.append('bawah')
         # # gambar  16
         # elif ((279>=colosionX1>=265 or 265<=colosionX2<=279) and 303>=colosionY2>=220) or ((279>=colosionX1>=265 or 265<=colosionX2<=279) and 303>=colosionY1>=220):
-        #     boolgerakHorizontal = True
+        # 
         # gambar  17
-        elif ((279>=colosionX1>=265 or 265<=colosionX2<=279) and 196>=colosionY2>=147) or ((279>=colosionX1>=265 or 265<=colosionX2<=279) and 196>=colosionY1>=147):
-            boolgerakHorizontal = True
+        elif ((279>=colosionX1>=265 or 265<=colosionX2<=279) and 196>=colosionY2>=147):
+            aksiColosion.append('atas')
+        elif ((279>=colosionX1>=265 or 265<=colosionX2<=279) and 196>=colosionY1>=147):
+            aksiColosion.append('bawah')
         # gambar  18
-        elif ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 196>=colosionY2>=147) or ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 196>=colosionY1>=147):
-            boolgerakHorizontal = True
+        elif ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 196>=colosionY2>=147):
+            aksiColosion.append('atas')
+        elif ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 196>=colosionY1>=147):
+            aksiColosion.append('bawah')
         # gambar  19
-        elif ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 196>=colosionY2>=147) or ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 196>=colosionY1>=147):
-            boolgerakHorizontal = True
+        elif ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 196>=colosionY2>=147):
+            aksiColosion.append('atas')
+        elif ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 196>=colosionY1>=147):
+            aksiColosion.append('bawah')
         # gambar  20
-        elif ((63>=colosionX1>=30 or 30<=colosionX2<=63) and 91>=colosionY2>=75) or ((63>=colosionX1>=30 or 30<=colosionX2<=63) and 91>=colosionY1>=75):
-            boolgerakHorizontal = True
+        elif ((63>=colosionX1>=30 or 30<=colosionX2<=63) and 91>=colosionY2>=75):
+            aksiColosion.append('atas')
+        elif ((63>=colosionX1>=30 or 30<=colosionX2<=63) and 91>=colosionY1>=75):
+            aksiColosion.append('bawah')
         # gambar  21
-        elif ((100>=colosionX1>=85 or 85<=colosionX2<=100) and 127>=colosionY2>=75) or ((100>=colosionX1>=85 or 85<=colosionX2<=100) and 127>=colosionY1>=75):
-            boolgerakHorizontal = True
+        elif ((100>=colosionX1>=85 or 85<=colosionX2<=100) and 127>=colosionY2>=75):
+            aksiColosion.append('atas')
+        elif ((100>=colosionX1>=85 or 85<=colosionX2<=100) and 127>=colosionY1>=75):
+            aksiColosion.append('bawah')
         # gambar  22
-        elif ((170>=colosionX1>=120 or 120<=colosionX2<=170) and 127>=colosionY2>=110) or ((170>=colosionX1>=120 or 120<=colosionX2<=170) and 127>=colosionY1>=110):
-            boolgerakHorizontal = True
+        elif ((170>=colosionX1>=120 or 120<=colosionX2<=170) and 127>=colosionY2>=110):
+            aksiColosion.append('atas')
+        elif ((170>=colosionX1>=120 or 120<=colosionX2<=170) and 127>=colosionY1>=110):
+            aksiColosion.append('bawah')
         # gambar  23
-        elif ((241>=colosionX1>=156 or 156<=colosionX2<=241) and 163>=colosionY2>=147) or ((241>=colosionX1>=156 or 156<=colosionX2<=241) and 163>=colosionY1>=147):
-            boolgerakHorizontal = True
+        elif ((241>=colosionX1>=156 or 156<=colosionX2<=241) and 163>=colosionY2>=147):
+            aksiColosion.append('atas')
+        elif ((241>=colosionX1>=156 or 156<=colosionX2<=241) and 163>=colosionY1>=147):
+            aksiColosion.append('bawah')
         # gambar  24
-        elif ((279>=colosionX1>=227 or 227<=colosionX2<=279) and 127>=colosionY2>=110) or ((279>=colosionX1>=227 or 227<=colosionX2<=279) and 127>=colosionY1>=110):
-            boolgerakHorizontal = True
+        elif ((279>=colosionX1>=227 or 227<=colosionX2<=279) and 127>=colosionY2>=110):
+            aksiColosion.append('atas')
+        elif ((279>=colosionX1>=227 or 227<=colosionX2<=279) and 127>=colosionY1>=110):
+            aksiColosion.append('bawah')
         # gambar  25
-        elif ((315>=colosionX1>=300 or 300<=colosionX2<=315) and 127>=colosionY2>=75) or ((315>=colosionX1>=300 or 300<=colosionX2<=315) and 127>=colosionY1>=75):
-            boolgerakHorizontal = True
+        elif ((315>=colosionX1>=300 or 300<=colosionX2<=315) and 127>=colosionY2>=75):
+            aksiColosion.append('atas')
+        elif ((315>=colosionX1>=300 or 300<=colosionX2<=315) and 127>=colosionY1>=75):
+            aksiColosion.append('bawah')
         # gambar  26
-        elif ((169>=colosionX1>=60 or 60<=colosionX2<=169) and 55>=colosionY2>=40) or ((169>=colosionX1>=60 or 60<=colosionX2<=169) and 55>=colosionY1>=40):
-            boolgerakHorizontal = True
+        elif ((169>=colosionX1>=60 or 60<=colosionX2<=169) and 55>=colosionY2>=40):
+            aksiColosion.append('atas')
+        elif ((169>=colosionX1>=60 or 60<=colosionX2<=169) and 55>=colosionY1>=40):
+            aksiColosion.append('bawah')
         # gambar  27
-        elif ((242>=colosionX1>=155 or 155<=colosionX2<=242) and 90>=colosionY2>=75) or ((242>=colosionX1>=155 or 155<=colosionX2<=242) and 90>=colosionY1>=75):
-            boolgerakHorizontal = True
+        elif ((242>=colosionX1>=155 or 155<=colosionX2<=242) and 90>=colosionY2>=75):
+            aksiColosion.append('atas')
+        elif ((242>=colosionX1>=155 or 155<=colosionX2<=242) and 90>=colosionY1>=75):
+            aksiColosion.append('bawah')
         # gambar  28
-        elif ((340>=colosionX1>=229 or 229<=colosionX2<=340) and 55>=colosionY2>=40) or ((340>=colosionX1>=229 or 229<=colosionX2<=340) and 55>=colosionY1>=40):
-            boolgerakHorizontal = True
+        elif ((340>=colosionX1>=229 or 229<=colosionX2<=340) and 55>=colosionY2>=40):
+            aksiColosion.append('atas')
+        elif ((340>=colosionX1>=229 or 229<=colosionX2<=340) and 55>=colosionY1>=40):
+            aksiColosion.append('bawah')
         # gambar  29
-        elif ((367>=colosionX1>=337 or 337<=colosionX2<=367) and 91>=colosionY2>=75) or ((367>=colosionX1>=337 or 337<=colosionX2<=367) and 91>=colosionY1>=75):
-            boolgerakHorizontal = True
+        elif ((367>=colosionX1>=337 or 337<=colosionX2<=367) and 91>=colosionY2>=75):
+            aksiColosion.append('atas')
+        elif ((367>=colosionX1>=337 or 337<=colosionX2<=367) and 91>=colosionY1>=75):
+            aksiColosion.append('bawah')
         
-
 
 
         # colosion point
@@ -374,8 +556,34 @@ def timer1(value1): #fungsi timer
         # elif ((337>=colosionX1>=320 or 320<=colosionX2<=337) and 287>=colosionY2>=270) or ((337>=colosionX1>=320 or 320<=colosionX2<=337) and 287>=colosionY1>=270):
         #     boolgerakHorizontal = True
 
+    # lawan 1
+    if bg_lw1_y == False:
+        dy_lw1 -= g_lw1
+        cl_lw1_y1 -= g_lw1
+        cl_lw1_y2 -= g_lw1
+    elif bg_lw1_y == True:
+        dy_lw1 += g_lw1
+        cl_lw1_y1 += g_lw1
+        cl_lw1_y2 += g_lw1
 
+    if cl_lw1_y2 == 374:
+        bg_lw1_y = False
+    elif cl_lw1_y1 == 55:
+        bg_lw1_y = True
 
+    if ((cl_lw1_y1<=colosionY1<=cl_lw1_y2 or cl_lw1_y1<=colosionY2<=cl_lw1_y2) and cl_lw1_x1<=colosionX1<=cl_lw1_x2):
+        aksiColosion.append('kiri')
+        bg_lw1_y = None
+    elif ((cl_lw1_y1<=colosionY1<=cl_lw1_y2 or cl_lw1_y1<=colosionY2<=cl_lw1_y2) and cl_lw1_x1<=colosionX2<=cl_lw1_x2):
+        aksiColosion.append('kanan')
+        bg_lw1_y = None
+    elif ((cl_lw1_x2>=colosionX1>=cl_lw1_x1 or cl_lw1_x1<=colosionX2<=cl_lw1_x2) and cl_lw1_y2>=colosionY2>=cl_lw1_y1):
+        aksiColosion.append('atas')
+        bg_lw1_y = None
+    elif ((cl_lw1_x2>=colosionX1>=cl_lw1_x1 or cl_lw1_x1<=colosionX2<=cl_lw1_x2) and cl_lw1_y2>=colosionY1>=cl_lw1_y1):
+        aksiColosion.append('bawah')
+        bg_lw1_y = None
+   
 
 
 
@@ -402,6 +610,16 @@ def kotak():
     glVertex2f(206,199)
     glVertex2f(189,199)
     '''
+def lawan1():
+    glPushMatrix()
+    glTranslate(0, dy_lw1, 0)
+    glBegin(GL_QUADS)
+    glVertex2f(102, 229)
+    glVertex2f(119, 229)
+    glVertex2f(119, 246)
+    glVertex2f(102, 246)
+    glEnd()
+    glPopMatrix()
 
 def showScreen():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # untuk membersihkan layar
@@ -446,12 +664,14 @@ def showScreen():
     # point2()
     # point3()
     # point4()
-    # point5()
+    point5()
     # point6()
     # point7()
     # point8()
     # point9()
     # point10()
+
+    lawan1()
 
     kotak()
 
@@ -472,3 +692,4 @@ glutTimerFunc(0, timer1, 0)
 
 
 glutMainLoop() #untuk memulai segalanya
+
