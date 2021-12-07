@@ -19,6 +19,15 @@ def kotakUtama():
     glVertex2f(30,374)
     glEnd()
 
+def kotakPoint():
+    glBegin(GL_QUADS)
+    glColor3ub(242, 13, 242)
+    glVertex2f(280,387)
+    glVertex2f(340,387)
+    glVertex2f(340,374)
+    glVertex2f(280,374)
+    glEnd()
+
 def gambar1():
     glBegin(GL_QUADS)
     glColor3ub(0, 128, 255)
