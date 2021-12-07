@@ -3,6 +3,7 @@ import OpenGL.GL
 from OpenGL.GL.glget import GLsize
 import OpenGL.GLUT
 import OpenGL.GLU
+import random 
 
 # program pertama
 from OpenGL.GL import *
@@ -17,7 +18,7 @@ from colosion_point import *
 # fungsi iterasi program
 def iterate():
     # ke kanan, atas, kiri, bawah
-    glViewport(-50, -20, 700, 655)
+    glViewport(-50, -20, 705, 638)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     glOrtho(0, 400, 0, 400, 0.0, 1.0)
@@ -32,7 +33,7 @@ boolGerakX = False
 deltaY = 0
 boolGerakY = False
 boolgerakHorizontal=False
-recordK1 = [False,]
+recordK1 = ['bawah',]
 aksiColosion  = [False, True]
 colosionX1 = 195
 colosionX2 = 205
@@ -96,6 +97,15 @@ cl_lw6_y1 = 243
 cl_lw6_y2 = 260
 cl_lw6_x1 = 137
 cl_lw6_x2 = 154
+
+# point
+index = 5
+angka = 0
+
+# semua
+kecepatan = 20
+sesi = [False, False, False, False, False, False]
+sesi_pt = 0
 
 def keyboard_coba(key, x, y):
     global boolGerakX
@@ -224,12 +234,51 @@ def timer1(value1): #fungsi timer
     global cl_lw6_x1
     global cl_lw6_x2
 
+    #point
+    global index
+    global angka
+    global sesi
+    global sesi_pt
+
+    # semua
+    global kecepatan
 
     # print(aksiColosion)
+
+    # if angka>0 and (angka % 10 == 0):
+    #     kecepatan -= 5
     
+    if angka == 10:
+        sesi[0] = True
+        sesi_pt += 1
+        kecepatan = 19
+    elif angka == 15:
+        sesi[1] = True
+        sesi_pt += 1
+        kecepatan = 18
+    elif angka == 20:
+        sesi[2] = True
+        sesi_pt += 1
+        kecepatan = 17
+    elif angka == 25:
+        sesi[3] = True
+        sesi_pt += 1
+        kecepatan = 16
+    elif angka == 30:
+        sesi[4] = True
+        sesi_pt += 1
+        kecepatan = 15
+    elif angka == 35:
+        sesi[5] = True
+        sesi_pt += 1
+        kecepatan = 14
+    elif angka == 40:
+        kecepatan = 13
+
     if len(aksiColosion)==2:
         aksiColosion.pop(0)
-    glutTimerFunc(1000//30, timer1, 0) 
+
+    glutTimerFunc(kecepatan, timer1, 0) 
     # kotak
     if aksiColosion[0] == 'kanan':
         deltaX += 0
@@ -432,55 +481,75 @@ def timer1(value1): #fungsi timer
 
         # colosion point
         # point 1
-        elif ((349<=colosionY1<=366 or 349<=colosionY2<=366) and 36<=colosionX1<=53):
-           boolgerakHorizontal = False
-        elif ((349<=colosionY1<=366 or 349<=colosionY2<=366) and 36<=colosionX2<=53):
-           boolgerakHorizontal = False
+        elif ((349<=colosionY1<=366 or 349<=colosionY2<=366) and 36<=colosionX1<=53) and index == 0:
+           index = random.randrange(10)
+           angka += 1
+        elif ((349<=colosionY1<=366 or 349<=colosionY2<=366) and 36<=colosionX2<=53) and index == 0:
+           index = random.randrange(10)
+           angka += 1
         # point 2
-        elif ((24<=colosionY1<=41 or 24<=colosionY2<=41) and 36<=colosionX1<=53):
-            boolgerakHorizontal = False
-        elif ((24<=colosionY1<=41 or 24<=colosionY2<=41) and 36<=colosionX2<=53):
-            boolgerakHorizontal = False
+        elif ((24<=colosionY1<=41 or 24<=colosionY2<=41) and 36<=colosionX1<=53) and index == 1:
+            index = random.randrange(10)
+            angka += 1
+        elif ((24<=colosionY1<=41 or 24<=colosionY2<=41) and 36<=colosionX2<=53) and index == 1:
+            index = random.randrange(10)
+            angka += 1
         # point 3
-        elif ((199<=colosionY1<=216 or 199<=colosionY2<=216) and 189<=colosionX1<=206):
-            boolgerakHorizontal = False
-        elif ((199<=colosionY1<=216 or 199<=colosionY2<=216) and 189<=colosionX2<=206):
-            boolgerakHorizontal = False
+        elif ((199<=colosionY1<=216 or 199<=colosionY2<=216) and 189<=colosionX1<=206) and index == 2:
+            index = random.randrange(10)
+            angka += 1
+        elif ((199<=colosionY1<=216 or 199<=colosionY2<=216) and 189<=colosionX2<=206) and index==2:
+            index = random.randrange(10)
+            angka += 1
         # point 4
-        elif ((165<=colosionY1<=182 or 165<=colosionY2<=182) and 194<=colosionX1<=211):
-            boolgerakHorizontal = False
-        elif ((165<=colosionY1<=182 or 165<=colosionY2<=182) and 194<=colosionX2<=211):
-            boolgerakHorizontal = False
+        elif ((165<=colosionY1<=182 or 165<=colosionY2<=182) and 194<=colosionX1<=211) and index == 3:
+            index = random.randrange(10)
+            angka += 1
+        elif ((165<=colosionY1<=182 or 165<=colosionY2<=182) and 194<=colosionX2<=211) and index == 3:
+            index = random.randrange(10)
+            angka += 1
         # point 5
-        elif ((106<=colosionY1<=123 or 106<=colosionY2<=123) and 172<=colosionX1<=189):
-            boolgerakHorizontal = False
-        elif ((106<=colosionY1<=123 or 106<=colosionY2<=123) and 172<=colosionX2<=189):
-            boolgerakHorizontal = False
+        elif ((106<=colosionY1<=123 or 106<=colosionY2<=123) and 172<=colosionX1<=189) and index == 4:
+            index = random.randrange(10)
+            angka += 1
+        elif ((106<=colosionY1<=123 or 106<=colosionY2<=123) and 172<=colosionX2<=189) and index == 4:
+            index = random.randrange(10)
+            angka += 1
         # point 6
-        elif ((199<=colosionY1<=216 or 199<=colosionY2<=216) and 282<=colosionX1<=299):
-            boolgerakHorizontal = False
-        elif ((199<=colosionY1<=216 or 199<=colosionY2<=216) and 282<=colosionX2<=299):
-            boolgerakHorizontal = False
+        elif ((199<=colosionY1<=216 or 199<=colosionY2<=216) and 282<=colosionX1<=299) and index == 5:
+            index = random.randrange(10)
+            angka += 1
+        elif ((199<=colosionY1<=216 or 199<=colosionY2<=216) and 282<=colosionX2<=299) and index == 5:
+            index = random.randrange(10)
+            angka += 1
         # point 7
-        elif ((305<=colosionY1<=322 or 305<=colosionY2<=322) and 137<=colosionX1<=154):
-            boolgerakHorizontal = False
-        elif ((305<=colosionY1<=322 or 305<=colosionY2<=322) and 137<=colosionX2<=154):
-            boolgerakHorizontal = False
+        elif ((305<=colosionY1<=322 or 305<=colosionY2<=322) and 137<=colosionX1<=154) and index == 6:
+            index = random.randrange(10)
+            angka += 1
+        elif ((305<=colosionY1<=322 or 305<=colosionY2<=322) and 137<=colosionX2<=154) and index == 6:
+            index = random.randrange(10)
+            angka += 1
         # point 8
-        elif ((56<=colosionY1<=73 or 56<=colosionY2<=73) and 246<=colosionX1<=263):
-            boolgerakHorizontal = False
-        elif ((56<=colosionY1<=73 or 56<=colosionY2<=73) and 246<=colosionX2<=263):
-            boolgerakHorizontal = False
+        elif ((56<=colosionY1<=73 or 56<=colosionY2<=73) and 246<=colosionX1<=263) and index == 7:
+            index = random.randrange(10)
+            angka += 1
+        elif ((56<=colosionY1<=73 or 56<=colosionY2<=73) and 246<=colosionX2<=263) and index == 7:
+            index = random.randrange(10)
+            angka += 1
         # point 9
-        elif ((22<=colosionY1<=39 or 22<=colosionY2<=39) and 343<=colosionX1<=360):
-            boolgerakHorizontal = False
-        elif ((22<=colosionY1<=39 or 22<=colosionY2<=39) and 343<=colosionX2<=360):
-            boolgerakHorizontal = False
+        elif ((22<=colosionY1<=39 or 22<=colosionY2<=39) and 343<=colosionX1<=360) and index == 8:
+            index = random.randrange(10)
+            angka += 1
+        elif ((22<=colosionY1<=39 or 22<=colosionY2<=39) and 343<=colosionX2<=360) and index == 8:
+            index = random.randrange(10)
+            angka += 1
         # point 10
-        elif ((270<=colosionY1<=287 or 270<=colosionY2<=287) and 320<=colosionX1<=337):
-            boolgerakHorizontal = False
-        elif ((270<=colosionY1<=287 or 270<=colosionY2<=287) and 320<=colosionX2<=337):
-            boolgerakHorizontal = False
+        elif ((270<=colosionY1<=287 or 270<=colosionY2<=287) and 320<=colosionX1<=337) and index == 9:
+            index = random.randrange(10)
+            angka += 1
+        elif ((270<=colosionY1<=287 or 270<=colosionY2<=287) and 320<=colosionX2<=337) and index == 9:
+            index = random.randrange(10)
+            angka += 1
 
           
         
@@ -572,9 +641,9 @@ def timer1(value1): #fungsi timer
         elif ((279>=colosionX1>=265 or 265<=colosionX2<=279) and 196>=colosionY1>=147):
             aksiColosion.append('bawah')
         # gambar  18
-        elif ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 196>=colosionY2>=147):
+        elif ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 267>=colosionY2>=220):
             aksiColosion.append('atas')
-        elif ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 196>=colosionY1>=147):
+        elif ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 267>=colosionY1>=220):
             aksiColosion.append('bawah')
         # gambar  19
         elif ((367>=colosionX1>=300 or 300<=colosionX2<=367) and 196>=colosionY2>=147):
@@ -636,223 +705,249 @@ def timer1(value1): #fungsi timer
 
         # colosion point
         #point 1
-        elif ((53>=colosionX1>=36 or 36<=colosionX2<=53) and 366>=colosionY2>=349):
-            boolgerakHorizontal = True
-        elif ((53>=colosionX1>=36 or 36<=colosionX2<=53) and 366>=colosionY1>=349):
-            boolgerakHorizontal = True
+        elif ((53>=colosionX1>=36 or 36<=colosionX2<=53) and 366>=colosionY2>=349) and index == 0:
+            index = random.randrange(10)
+            angka += 1
+        elif ((53>=colosionX1>=36 or 36<=colosionX2<=53) and 366>=colosionY1>=349) and index == 0:
+            index = random.randrange(10)
+            angka += 1
         #point 2
-        elif ((53>=colosionX1>=36 or 36<=colosionX2<=53) and 41>=colosionY2>=24):
-            boolgerakHorizontal = True
-        elif ((53>=colosionX1>=36 or 36<=colosionX2<=53) and 41>=colosionY1>=24):
-            boolgerakHorizontal = True
+        elif ((53>=colosionX1>=36 or 36<=colosionX2<=53) and 41>=colosionY2>=24) and index == 1:
+            index = random.randrange(10)
+            angka += 1
+        elif ((53>=colosionX1>=36 or 36<=colosionX2<=53) and 41>=colosionY1>=24) and index == 1:
+            index = random.randrange(10)
+            angka += 1
         #point 3
-        elif ((206>=colosionX1>=189 or 189<=colosionX2<=206) and 216>=colosionY2>=199):
-            boolgerakHorizontal = True
-        elif ((206>=colosionX1>=189 or 189<=colosionX2<=206) and 216>=colosionY1>=199):
-            boolgerakHorizontal = True
+        elif ((206>=colosionX1>=189 or 189<=colosionX2<=206) and 216>=colosionY2>=199) and index == 2:
+            index = random.randrange(10)
+            angka += 1
+        elif ((206>=colosionX1>=189 or 189<=colosionX2<=206) and 216>=colosionY1>=199) and index == 2:
+            index = random.randrange(10)
+            angka += 1
         #point 4
-        elif ((211>=colosionX1>=194 or 194<=colosionX2<=211) and 182>=colosionY2>=165):
-            boolgerakHorizontal = True
-        elif ((211>=colosionX1>=194 or 194<=colosionX2<=211) and 182>=colosionY1>=165):
-            boolgerakHorizontal = True
+        elif ((211>=colosionX1>=194 or 194<=colosionX2<=211) and 182>=colosionY2>=165) and index == 3:
+            index = random.randrange(10)
+            angka += 1
+        elif ((211>=colosionX1>=194 or 194<=colosionX2<=211) and 182>=colosionY1>=165) and index == 3:
+            index = random.randrange(10)
+            angka += 1
         #point 5
-        elif ((189>=colosionX1>=172 or 172<=colosionX2<=189) and 123>=colosionY2>=106):
-            boolgerakHorizontal = True
-        elif ((189>=colosionX1>=172 or 172<=colosionX2<=189) and 123>=colosionY1>=106):
-            boolgerakHorizontal = True
+        elif ((189>=colosionX1>=172 or 172<=colosionX2<=189) and 123>=colosionY2>=106) and index == 4:
+            index = random.randrange(10)
+            angka += 1
+        elif ((189>=colosionX1>=172 or 172<=colosionX2<=189) and 123>=colosionY1>=106) and index == 4:
+            index = random.randrange(10)
+            angka += 1
         #point 6
-        elif ((299>=colosionX1>=282 or 282<=colosionX2<=299) and 216>=colosionY2>=199):
-            boolgerakHorizontal = True
-        elif ((299>=colosionX1>=282 or 282<=colosionX2<=299) and 216>=colosionY1>=199):
-            boolgerakHorizontal = True
+        elif ((299>=colosionX1>=282 or 282<=colosionX2<=299) and 216>=colosionY2>=199) and index == 5:
+            index = random.randrange(10)
+            angka += 1
+        elif ((299>=colosionX1>=282 or 282<=colosionX2<=299) and 216>=colosionY1>=199) and index == 5:
+            index = random.randrange(10)
+            angka += 1
         #point 7
-        elif ((154>=colosionX1>=137 or 137<=colosionX2<=154) and 322>=colosionY2>=305):
-            boolgerakHorizontal = True
-        elif ((154>=colosionX1>=137 or 137<=colosionX2<=154) and 322>=colosionY1>=305):
-            boolgerakHorizontal = True
+        elif ((154>=colosionX1>=137 or 137<=colosionX2<=154) and 322>=colosionY2>=305) and index == 6:
+            index = random.randrange(10)
+            angka += 1
+        elif ((154>=colosionX1>=137 or 137<=colosionX2<=154) and 322>=colosionY1>=305) and index == 6:
+            index = random.randrange(10)
+            angka += 1
         #point 8
-        elif ((263>=colosionX1>=246 or 246<=colosionX2<=263) and 73>=colosionY2>=56):
-            boolgerakHorizontal = True
-        elif ((263>=colosionX1>=246 or 246<=colosionX2<=263) and 73>=colosionY1>=56):
-            boolgerakHorizontal = True
+        elif ((263>=colosionX1>=246 or 246<=colosionX2<=263) and 73>=colosionY2>=56) and index == 7:
+            index = random.randrange(10)
+            angka += 1
+        elif ((263>=colosionX1>=246 or 246<=colosionX2<=263) and 73>=colosionY1>=56) and index == 7:
+            index = random.randrange(10)
+            angka += 1
         #point 9
-        elif ((367>=colosionX1>=343 or 343<=colosionX2<=367) and 39>=colosionY2>=22):
-            boolgerakHorizontal = True
-        elif ((367>=colosionX1>=343 or 343<=colosionX2<=367) and 39>=colosionY1>=22):
-            boolgerakHorizontal = True
+        elif ((367>=colosionX1>=343 or 343<=colosionX2<=367) and 39>=colosionY2>=22) and index == 8:
+            index = random.randrange(10)
+            angka += 1
+        elif ((367>=colosionX1>=343 or 343<=colosionX2<=367) and 39>=colosionY1>=22) and index == 8:
+            index = random.randrange(10)
+            angka += 1
         #point 10
-        elif ((337>=colosionX1>=320 or 320<=colosionX2<=337) and 287>=colosionY2>=270):
-            boolgerakHorizontal = True
-        elif ((337>=colosionX1>=320 or 320<=colosionX2<=337) and 287>=colosionY1>=270):
-            boolgerakHorizontal = True
+        elif ((337>=colosionX1>=320 or 320<=colosionX2<=337) and 287>=colosionY2>=270) and index == 9:
+            index = random.randrange(10)
+            angka += 1
+        elif ((337>=colosionX1>=320 or 320<=colosionX2<=337) and 287>=colosionY1>=270) and index == 9:
+            index = random.randrange(10)
+            angka += 1
 
     # lawan 1
-    if bg_lw1_y == False:
-        dy_lw1 -= g_lw1
-        cl_lw1_y1 -= g_lw1
-        cl_lw1_y2 -= g_lw1
-    elif bg_lw1_y == True:
-        dy_lw1 += g_lw1
-        cl_lw1_y1 += g_lw1
-        cl_lw1_y2 += g_lw1
+    if sesi[0] == True:
+        if bg_lw1_y == False:
+            dy_lw1 -= g_lw1
+            cl_lw1_y1 -= g_lw1
+            cl_lw1_y2 -= g_lw1
+        elif bg_lw1_y == True:
+            dy_lw1 += g_lw1
+            cl_lw1_y1 += g_lw1
+            cl_lw1_y2 += g_lw1
 
-    if cl_lw1_y2 == 374:
-        bg_lw1_y = False
-    elif cl_lw1_y1 == 55:
-        bg_lw1_y = True
+        if cl_lw1_y2 == 374:
+            bg_lw1_y = False
+        elif cl_lw1_y1 == 55:
+            bg_lw1_y = True
 
-    if ((cl_lw1_y1<=colosionY1<=cl_lw1_y2 or cl_lw1_y1<=colosionY2<=cl_lw1_y2) and cl_lw1_x1<=colosionX1<=cl_lw1_x2):
-        aksiColosion.append('kiri')
-        bg_lw1_y = None
-    elif ((cl_lw1_y1<=colosionY1<=cl_lw1_y2 or cl_lw1_y1<=colosionY2<=cl_lw1_y2) and cl_lw1_x1<=colosionX2<=cl_lw1_x2):
-        aksiColosion.append('kanan')
-        bg_lw1_y = None
-    elif ((cl_lw1_x2>=colosionX1>=cl_lw1_x1 or cl_lw1_x1<=colosionX2<=cl_lw1_x2) and cl_lw1_y2>=colosionY2>=cl_lw1_y1):
-        aksiColosion.append('atas')
-        bg_lw1_y = None
-    elif ((cl_lw1_x2>=colosionX1>=cl_lw1_x1 or cl_lw1_x1<=colosionX2<=cl_lw1_x2) and cl_lw1_y2>=colosionY1>=cl_lw1_y1):
-        aksiColosion.append('bawah')
-        bg_lw1_y = None
+        if ((cl_lw1_y1<=colosionY1<=cl_lw1_y2 or cl_lw1_y1<=colosionY2<=cl_lw1_y2) and cl_lw1_x1<=colosionX1<=cl_lw1_x2):
+            aksiColosion.append('kiri')
+            bg_lw1_y = None
+        elif ((cl_lw1_y1<=colosionY1<=cl_lw1_y2 or cl_lw1_y1<=colosionY2<=cl_lw1_y2) and cl_lw1_x1<=colosionX2<=cl_lw1_x2):
+            aksiColosion.append('kanan')
+            bg_lw1_y = None
+        elif ((cl_lw1_x2>=colosionX1>=cl_lw1_x1 or cl_lw1_x1<=colosionX2<=cl_lw1_x2) and cl_lw1_y2>=colosionY2>=cl_lw1_y1):
+            aksiColosion.append('atas')
+            bg_lw1_y = None
+        elif ((cl_lw1_x2>=colosionX1>=cl_lw1_x1 or cl_lw1_x1<=colosionX2<=cl_lw1_x2) and cl_lw1_y2>=colosionY1>=cl_lw1_y1):
+            aksiColosion.append('bawah')
+            bg_lw1_y = None
    
     # lawan 2
-    if bg_lw2_y == False:
-        dy_lw2 -= g_lw2
-        cl_lw2_y1 -= g_lw2
-        cl_lw2_y2 -= g_lw2
-    elif bg_lw2_y == True:
-        dy_lw2 += g_lw2
-        cl_lw2_y1 += g_lw2
-        cl_lw2_y2 += g_lw2
+    if sesi[1] == True:
+        if bg_lw2_y == False:
+            dy_lw2 -= g_lw2
+            cl_lw2_y1 -= g_lw2
+            cl_lw2_y2 -= g_lw2
+        elif bg_lw2_y == True:
+            dy_lw2 += g_lw2
+            cl_lw2_y1 += g_lw2
+            cl_lw2_y2 += g_lw2
 
-    if cl_lw2_y2 == 374:
-        bg_lw2_y = False
-    elif cl_lw2_y1 == 55:
-        bg_lw2_y = True
+        if cl_lw2_y2 == 374:
+            bg_lw2_y = False
+        elif cl_lw2_y1 == 55:
+            bg_lw2_y = True
 
-    if ((cl_lw2_y1<=colosionY1<=cl_lw2_y2 or cl_lw2_y1<=colosionY2<=cl_lw2_y2) and cl_lw2_x1<=colosionX1<=cl_lw2_x2):
-        aksiColosion.append('kiri')
-        bg_lw2_y = None
-    elif ((cl_lw2_y1<=colosionY1<=cl_lw2_y2 or cl_lw2_y1<=colosionY2<=cl_lw2_y2) and cl_lw2_x1<=colosionX2<=cl_lw2_x2):
-        aksiColosion.append('kanan')
-        bg_lw2_y = None
-    elif ((cl_lw2_x2>=colosionX1>=cl_lw2_x1 or cl_lw2_x1<=colosionX2<=cl_lw2_x2) and cl_lw2_y2>=colosionY2>=cl_lw2_y1):
-        aksiColosion.append('atas')
-        bg_lw2_y = None
-    elif ((cl_lw2_x2>=colosionX1>=cl_lw2_x1 or cl_lw2_x1<=colosionX2<=cl_lw2_x2) and cl_lw2_y2>=colosionY1>=cl_lw2_y1):
-        aksiColosion.append('bawah')
-        bg_lw2_y = None
+        if ((cl_lw2_y1<=colosionY1<=cl_lw2_y2 or cl_lw2_y1<=colosionY2<=cl_lw2_y2) and cl_lw2_x1<=colosionX1<=cl_lw2_x2):
+            aksiColosion.append('kiri')
+            bg_lw2_y = None
+        elif ((cl_lw2_y1<=colosionY1<=cl_lw2_y2 or cl_lw2_y1<=colosionY2<=cl_lw2_y2) and cl_lw2_x1<=colosionX2<=cl_lw2_x2):
+            aksiColosion.append('kanan')
+            bg_lw2_y = None
+        elif ((cl_lw2_x2>=colosionX1>=cl_lw2_x1 or cl_lw2_x1<=colosionX2<=cl_lw2_x2) and cl_lw2_y2>=colosionY2>=cl_lw2_y1):
+            aksiColosion.append('atas')
+            bg_lw2_y = None
+        elif ((cl_lw2_x2>=colosionX1>=cl_lw2_x1 or cl_lw2_x1<=colosionX2<=cl_lw2_x2) and cl_lw2_y2>=colosionY1>=cl_lw2_y1):
+            aksiColosion.append('bawah')
+            bg_lw2_y = None
 
 
     # lawan 3
-    if bg_lw3_x == False:
-        dx_lw3 -= g_lw3
-        cl_lw3_x1 -= g_lw3
-        cl_lw3_x2 -= g_lw3
-    elif bg_lw3_x == True:
-        dx_lw3 += g_lw3
-        cl_lw3_x1 += g_lw3
-        cl_lw3_x2 += g_lw3
+    if sesi[2] == True:
+        if bg_lw3_x == False:
+            dx_lw3 -= g_lw3
+            cl_lw3_x1 -= g_lw3
+            cl_lw3_x2 -= g_lw3
+        elif bg_lw3_x == True:
+            dx_lw3 += g_lw3
+            cl_lw3_x1 += g_lw3
+            cl_lw3_x2 += g_lw3
 
-    if cl_lw3_x2 == 367:
-        bg_lw3_x = False
-    elif cl_lw3_x1 == 30:
-        bg_lw3_x = True
+        if cl_lw3_x2 == 367:
+            bg_lw3_x = False
+        elif cl_lw3_x1 == 30:
+            bg_lw3_x = True
 
-    if ((cl_lw3_y1<=colosionY1<=cl_lw3_y2 or cl_lw3_y1<=colosionY2<=cl_lw3_y2) and cl_lw3_x1<=colosionX1<=cl_lw3_x2):
-        aksiColosion.append('kiri')
-        bg_lw3_x = None
-    elif ((cl_lw3_y1<=colosionY1<=cl_lw3_y2 or cl_lw3_y1<=colosionY2<=cl_lw3_y2) and cl_lw3_x1<=colosionX2<=cl_lw3_x2):
-        aksiColosion.append('kanan')
-        bg_lw3_x = None
-    elif ((cl_lw3_x2>=colosionX1>=cl_lw3_x1 or cl_lw3_x1<=colosionX2<=cl_lw3_x2) and cl_lw3_y2>=colosionY2>=cl_lw3_y1):
-        aksiColosion.append('atas')
-        bg_lw3_x = None
-    elif ((cl_lw3_x2>=colosionX1>=cl_lw3_x1 or cl_lw3_x1<=colosionX2<=cl_lw3_x2) and cl_lw3_y2>=colosionY1>=cl_lw3_y1):
-        aksiColosion.append('bawah')
-        bg_lw3_x = None
+        if ((cl_lw3_y1<=colosionY1<=cl_lw3_y2 or cl_lw3_y1<=colosionY2<=cl_lw3_y2) and cl_lw3_x1<=colosionX1<=cl_lw3_x2):
+            aksiColosion.append('kiri')
+            bg_lw3_x = None
+        elif ((cl_lw3_y1<=colosionY1<=cl_lw3_y2 or cl_lw3_y1<=colosionY2<=cl_lw3_y2) and cl_lw3_x1<=colosionX2<=cl_lw3_x2):
+            aksiColosion.append('kanan')
+            bg_lw3_x = None
+        elif ((cl_lw3_x2>=colosionX1>=cl_lw3_x1 or cl_lw3_x1<=colosionX2<=cl_lw3_x2) and cl_lw3_y2>=colosionY2>=cl_lw3_y1):
+            aksiColosion.append('atas')
+            bg_lw3_x = None
+        elif ((cl_lw3_x2>=colosionX1>=cl_lw3_x1 or cl_lw3_x1<=colosionX2<=cl_lw3_x2) and cl_lw3_y2>=colosionY1>=cl_lw3_y1):
+            aksiColosion.append('bawah')
+            bg_lw3_x = None
 
     # lawan 4
-    if bg_lw4_x == False:
-        dx_lw4 -= g_lw4
-        cl_lw4_x1 -= g_lw4
-        cl_lw4_x2 -= g_lw4
-    elif bg_lw4_x == True:
-        dx_lw4 += g_lw4
-        cl_lw4_x1 += g_lw4
-        cl_lw4_x2 += g_lw4
+    if sesi[3] == True:
+        if bg_lw4_x == False:
+            dx_lw4 -= g_lw4
+            cl_lw4_x1 -= g_lw4
+            cl_lw4_x2 -= g_lw4
+        elif bg_lw4_x == True:
+            dx_lw4 += g_lw4
+            cl_lw4_x1 += g_lw4
+            cl_lw4_x2 += g_lw4
 
-    if cl_lw4_x2 == 367:
-        bg_lw4_x = False
-    elif cl_lw4_x1 == 30:
-        bg_lw4_x = True
+        if cl_lw4_x2 == 367:
+            bg_lw4_x = False
+        elif cl_lw4_x1 == 30:
+            bg_lw4_x = True
 
-    if ((cl_lw4_y1<=colosionY1<=cl_lw4_y2 or cl_lw4_y1<=colosionY2<=cl_lw4_y2) and cl_lw4_x1<=colosionX1<=cl_lw4_x2):
-        aksiColosion.append('kiri')
-        bg_lw4_x = None
-    elif ((cl_lw4_y1<=colosionY1<=cl_lw4_y2 or cl_lw4_y1<=colosionY2<=cl_lw4_y2) and cl_lw4_x1<=colosionX2<=cl_lw4_x2):
-        aksiColosion.append('kanan')
-        bg_lw4_x = None
-    elif ((cl_lw4_x2>=colosionX1>=cl_lw4_x1 or cl_lw4_x1<=colosionX2<=cl_lw4_x2) and cl_lw4_y2>=colosionY2>=cl_lw4_y1):
-        aksiColosion.append('atas')
-        bg_lw4_x = None
-    elif ((cl_lw4_x2>=colosionX1>=cl_lw4_x1 or cl_lw4_x1<=colosionX2<=cl_lw4_x2) and cl_lw4_y2>=colosionY1>=cl_lw4_y1):
-        aksiColosion.append('bawah')
-        bg_lw4_x = None
+        if ((cl_lw4_y1<=colosionY1<=cl_lw4_y2 or cl_lw4_y1<=colosionY2<=cl_lw4_y2) and cl_lw4_x1<=colosionX1<=cl_lw4_x2):
+            aksiColosion.append('kiri')
+            bg_lw4_x = None
+        elif ((cl_lw4_y1<=colosionY1<=cl_lw4_y2 or cl_lw4_y1<=colosionY2<=cl_lw4_y2) and cl_lw4_x1<=colosionX2<=cl_lw4_x2):
+            aksiColosion.append('kanan')
+            bg_lw4_x = None
+        elif ((cl_lw4_x2>=colosionX1>=cl_lw4_x1 or cl_lw4_x1<=colosionX2<=cl_lw4_x2) and cl_lw4_y2>=colosionY2>=cl_lw4_y1):
+            aksiColosion.append('atas')
+            bg_lw4_x = None
+        elif ((cl_lw4_x2>=colosionX1>=cl_lw4_x1 or cl_lw4_x1<=colosionX2<=cl_lw4_x2) and cl_lw4_y2>=colosionY1>=cl_lw4_y1):
+            aksiColosion.append('bawah')
+            bg_lw4_x = None
 
     # lawan 5
-    if bg_lw5_y == False:
-        dy_lw5 -= g_lw5
-        cl_lw5_y1 -= g_lw5
-        cl_lw5_y2 -= g_lw5
-    elif bg_lw5_y == True:
-        dy_lw5 += g_lw5
-        cl_lw5_y1 += g_lw5
-        cl_lw5_y2 += g_lw5
+    if sesi[4] == True:
+        if bg_lw5_y == False:
+            dy_lw5 -= g_lw5
+            cl_lw5_y1 -= g_lw5
+            cl_lw5_y2 -= g_lw5
+        elif bg_lw5_y == True:
+            dy_lw5 += g_lw5
+            cl_lw5_y1 += g_lw5
+            cl_lw5_y2 += g_lw5
 
-    if cl_lw5_y2 == 324:
-        bg_lw5_y = False
-    elif cl_lw5_y1 == 127:
-        bg_lw5_y = True
+        if cl_lw5_y2 == 324:
+            bg_lw5_y = False
+        elif cl_lw5_y1 == 127:
+            bg_lw5_y = True
 
-    if ((cl_lw5_y1<=colosionY1<=cl_lw5_y2 or cl_lw5_y1<=colosionY2<=cl_lw5_y2) and cl_lw5_x1<=colosionX1<=cl_lw5_x2):
-        aksiColosion.append('kiri')
-        bg_lw5_y = None
-    elif ((cl_lw5_y1<=colosionY1<=cl_lw5_y2 or cl_lw5_y1<=colosionY2<=cl_lw5_y2) and cl_lw5_x1<=colosionX2<=cl_lw5_x2):
-        aksiColosion.append('kanan')
-        bg_lw5_y = None
-    elif ((cl_lw5_x2>=colosionX1>=cl_lw5_x1 or cl_lw5_x1<=colosionX2<=cl_lw5_x2) and cl_lw5_y2>=colosionY2>=cl_lw5_y1):
-        aksiColosion.append('atas')
-        bg_lw5_y = None
-    elif ((cl_lw5_x2>=colosionX1>=cl_lw5_x1 or cl_lw5_x1<=colosionX2<=cl_lw5_x2) and cl_lw5_y2>=colosionY1>=cl_lw5_y1):
-        aksiColosion.append('bawah')
-        bg_lw5_y = None
+        if ((cl_lw5_y1<=colosionY1<=cl_lw5_y2 or cl_lw5_y1<=colosionY2<=cl_lw5_y2) and cl_lw5_x1<=colosionX1<=cl_lw5_x2):
+            aksiColosion.append('kiri')
+            bg_lw5_y = None
+        elif ((cl_lw5_y1<=colosionY1<=cl_lw5_y2 or cl_lw5_y1<=colosionY2<=cl_lw5_y2) and cl_lw5_x1<=colosionX2<=cl_lw5_x2):
+            aksiColosion.append('kanan')
+            bg_lw5_y = None
+        elif ((cl_lw5_x2>=colosionX1>=cl_lw5_x1 or cl_lw5_x1<=colosionX2<=cl_lw5_x2) and cl_lw5_y2>=colosionY2>=cl_lw5_y1):
+            aksiColosion.append('atas')
+            bg_lw5_y = None
+        elif ((cl_lw5_x2>=colosionX1>=cl_lw5_x1 or cl_lw5_x1<=colosionX2<=cl_lw5_x2) and cl_lw5_y2>=colosionY1>=cl_lw5_y1):
+            aksiColosion.append('bawah')
+            bg_lw5_y = None
 
     # lawan 6
-    if bg_lw6_y == False:
-        dy_lw6 -= g_lw6
-        cl_lw6_y1 -= g_lw6
-        cl_lw6_y2 -= g_lw6
-    elif bg_lw6_y == True:
-        dy_lw6 += g_lw6
-        cl_lw6_y1 += g_lw6
-        cl_lw6_y2 += g_lw6
+    if sesi[5] == True:
+        if bg_lw6_y == False:
+            dy_lw6 -= g_lw6
+            cl_lw6_y1 -= g_lw6
+            cl_lw6_y2 -= g_lw6
+        elif bg_lw6_y == True:
+            dy_lw6 += g_lw6
+            cl_lw6_y1 += g_lw6
+            cl_lw6_y2 += g_lw6
 
-    if cl_lw6_y2 == 324:
-        bg_lw6_y = False
-    elif cl_lw6_y1 == 127:
-        bg_lw6_y = True
+        if cl_lw6_y2 == 324:
+            bg_lw6_y = False
+        elif cl_lw6_y1 == 127:
+            bg_lw6_y = True
 
-    if ((cl_lw6_y1<=colosionY1<=cl_lw6_y2 or cl_lw6_y1<=colosionY2<=cl_lw6_y2) and cl_lw6_x1<=colosionX1<=cl_lw6_x2):
-        aksiColosion.append('kiri')
-        bg_lw6_y = None
-    elif ((cl_lw6_y1<=colosionY1<=cl_lw6_y2 or cl_lw6_y1<=colosionY2<=cl_lw6_y2) and cl_lw6_x1<=colosionX2<=cl_lw6_x2):
-        aksiColosion.append('kanan')
-        bg_lw6_y = None
-    elif ((cl_lw6_x2>=colosionX1>=cl_lw6_x1 or cl_lw6_x1<=colosionX2<=cl_lw6_x2) and cl_lw6_y2>=colosionY2>=cl_lw6_y1):
-        aksiColosion.append('atas')
-        bg_lw6_y = None
-    elif ((cl_lw6_x2>=colosionX1>=cl_lw6_x1 or cl_lw6_x1<=colosionX2<=cl_lw6_x2) and cl_lw6_y2>=colosionY1>=cl_lw6_y1):
-        aksiColosion.append('bawah')
+        if ((cl_lw6_y1<=colosionY1<=cl_lw6_y2 or cl_lw6_y1<=colosionY2<=cl_lw6_y2) and cl_lw6_x1<=colosionX1<=cl_lw6_x2):
+            aksiColosion.append('kiri')
+            bg_lw6_y = None
+        elif ((cl_lw6_y1<=colosionY1<=cl_lw6_y2 or cl_lw6_y1<=colosionY2<=cl_lw6_y2) and cl_lw6_x1<=colosionX2<=cl_lw6_x2):
+            aksiColosion.append('kanan')
+            bg_lw6_y = None
+        elif ((cl_lw6_x2>=colosionX1>=cl_lw6_x1 or cl_lw6_x1<=colosionX2<=cl_lw6_x2) and cl_lw6_y2>=colosionY2>=cl_lw6_y1):
+            aksiColosion.append('atas')
+            bg_lw6_y = None
+        elif ((cl_lw6_x2>=colosionX1>=cl_lw6_x1 or cl_lw6_x1<=colosionX2<=cl_lw6_x2) and cl_lw6_y2>=colosionY1>=cl_lw6_y1):
+            aksiColosion.append('bawah')
         bg_lw6_y = None
 
     # colosion antar lawan 1 ke lawan 3
@@ -912,6 +1007,14 @@ def timer1(value1): #fungsi timer
         bg_lw4_x = True
     elif ((cl_lw6_y1<=cl_lw4_y1<=cl_lw6_y2 or cl_lw6_y1<=cl_lw4_y2<=cl_lw6_y2) and cl_lw6_x1<=cl_lw4_x2<=cl_lw6_x2):
         bg_lw4_x = False
+
+
+
+def skor_display(skor):
+    glColor(0,0,0)
+    glRasterPos(282, 377)
+    for i in str(skor):
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ord(i))
 
 def update(value):
     glutPostRedisplay()
@@ -1002,7 +1105,8 @@ def lawan6():
     glEnd()
     glPopMatrix()
 
-
+point = [point1, point2, point3, point4, point5, point6, point7, point8, point9, point10]
+lawan = [lawan1, lawan2, lawan3, lawan4, lawan5, lawan6]
 def showScreen():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # untuk membersihkan layar
     glLoadIdentity() # untuk mereset semua posisi grafik/bentuk
@@ -1042,25 +1146,28 @@ def showScreen():
     gambar28()
     gambar29()
 
-    point1()
-    point2()
-    point3()
-    point4()
-    point5()
-    point6()
-    point7()
-    point8()
-    point9()
-    point10()
-
-
-    lawan1()
-    lawan2()
-    lawan3()
-    lawan4()
-    lawan5()
-    lawan6()
-
+    point[index]()
+    kotakPoint()
+    skor_display(angka)
+    # lawan1()
+    # lawan2()
+    # lawan3()
+    # lawan4()
+    # lawan5()
+    # lawan6()
+    if sesi[0] == True:
+        lawan[0]()
+    if sesi[1] == True:
+        lawan[1]()
+    if sesi[2] == True:
+        lawan[2]()
+    if sesi[3] == True:
+        lawan[3]()
+    if sesi[4] == True:
+        lawan[4]()
+    if sesi[5] == True:
+        lawan[5]()
+    
     kotak()
 
     glFlush()
