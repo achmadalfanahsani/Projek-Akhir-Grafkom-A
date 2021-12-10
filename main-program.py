@@ -11,8 +11,7 @@ from OpenGL.GLUT import *
 from OpenGL.GLU import *
 
 from maze import *
-from colosion_point import *
-# from colosion_lawan import *
+from gambar_point import *
 
 
 # fungsi iterasi program
@@ -105,7 +104,6 @@ angka = 0
 # semua
 kecepatan = 20
 sesi = [False, False, False, False, False, False]
-sesi_pt = 0
 
 def keyboard_coba(key, x, y):
     global boolGerakX
@@ -238,7 +236,7 @@ def timer1(value1): #fungsi timer
     global index
     global angka
     global sesi
-    global sesi_pt
+
 
     # semua
     global kecepatan
@@ -250,31 +248,29 @@ def timer1(value1): #fungsi timer
     
     if angka == 10:
         sesi[0] = True
-        sesi_pt += 1
         kecepatan = 19
     elif angka == 15:
         sesi[1] = True
-        sesi_pt += 1
         kecepatan = 18
     elif angka == 20:
         sesi[2] = True
-        sesi_pt += 1
         kecepatan = 17
     elif angka == 25:
         sesi[3] = True
-        sesi_pt += 1
         kecepatan = 16
     elif angka == 30:
         sesi[4] = True
-        sesi_pt += 1
         kecepatan = 15
     elif angka == 35:
         sesi[5] = True
-        sesi_pt += 1
         kecepatan = 14
     elif angka == 40:
         kecepatan = 13
-
+    elif angka == 45:
+        kecepatan = 12
+    elif angka == 50:
+        kecepatan = 11
+        
     if len(aksiColosion)==2:
         aksiColosion.pop(0)
 
@@ -1105,7 +1101,7 @@ def lawan6():
     glEnd()
     glPopMatrix()
 
-point = [point1, point2, point3, point4, point5, point6, point7, point8, point9, point10]
+point = [gp_1, gp_2, gp_3, gp_4, gp_5, gp_6, gp_7, gp_8, gp_9, gp_10]
 lawan = [lawan1, lawan2, lawan3, lawan4, lawan5, lawan6]
 def showScreen():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # untuk membersihkan layar
@@ -1149,12 +1145,6 @@ def showScreen():
     point[index]()
     kotakPoint()
     skor_display(angka)
-    # lawan1()
-    # lawan2()
-    # lawan3()
-    # lawan4()
-    # lawan5()
-    # lawan6()
     if sesi[0] == True:
         lawan[0]()
     if sesi[1] == True:
@@ -1178,7 +1168,7 @@ glutInit(sys.argv)  # inisialisasi glut
 glutInitDisplayMode(GLUT_RGBA) # mengatur layar supaya berwarna
 glutInitWindowSize(600, 600) # mengatur ukuran layar/window
 glutInitWindowPosition(750, 0) # mangatur posisi window
-wind = glutCreateWindow("Snake Man") # untuk memberi nama window
+glutCreateWindow("Snake Man") # untuk memberi nama window
 glutDisplayFunc(showScreen) # untuk menampilkan objek pada layar
 glutIdleFunc(showScreen) # untuk menuruh opengl untuk selalu menampilkan dan membuka objek
 glutSpecialFunc(keyboard_coba)
