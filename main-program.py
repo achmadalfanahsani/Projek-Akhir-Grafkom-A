@@ -102,6 +102,7 @@ index = 5
 angka = 0
 
 # semua
+arah_karakter = 'bawah'
 kecepatan = 20
 sesi = [False, False, False, False, False, False]
 
@@ -111,6 +112,7 @@ def keyboard_coba(key, x, y):
     global boolgerakHorizontal
     global recordK1
     global aksiColosion
+    global arah_karakter
 
     recordK1.pop()
     
@@ -121,20 +123,24 @@ def keyboard_coba(key, x, y):
             boolGerakY = True
         else:
             boolgerakHorizontal = None
-            boolGerakY = False
+            boolGerakY = None
         recordK1.append('atas')
         aksiColosion.clear()
         aksiColosion.append('a')
+        arah_karakter = 'atas'
+
     elif  key == GLUT_KEY_DOWN:
         if aksiColosion[0] != 'bawah':
             boolgerakHorizontal=False
             boolGerakY = False
         else:
             boolgerakHorizontal = None
-            boolGerakX = None
+            boolGerakY = None
         recordK1.append('bawah')
         aksiColosion.clear()
         aksiColosion.append('b')
+        arah_karakter = 'bawah'
+
         
     elif key == GLUT_KEY_RIGHT:
         if aksiColosion[0] != 'kanan':
@@ -146,6 +152,7 @@ def keyboard_coba(key, x, y):
         recordK1.append('kanan')
         aksiColosion.clear()
         aksiColosion.append('ka')
+        arah_karakter = 'kanan'
        
     elif key==GLUT_KEY_LEFT:
         if aksiColosion[0] != 'kiri':
@@ -157,6 +164,7 @@ def keyboard_coba(key, x, y):
         recordK1.append('kiri')
         aksiColosion.clear()
         aksiColosion.append('ka')
+        arah_karakter = 'kiri'
        
 
 
@@ -270,6 +278,8 @@ def timer1(value1): #fungsi timer
         kecepatan = 12
     elif angka == 50:
         kecepatan = 11
+    elif angka == 55:
+        kecepatan = 10
         
     if len(aksiColosion)==2:
         aksiColosion.pop(0)
@@ -315,14 +325,6 @@ def timer1(value1): #fungsi timer
         deltaX += gerakKotakX
         colosionX1 += gerakKotakX
         colosionX2 += gerakKotakX
-    # print('colosion X1 =', colosionX1)
-    # print('colosion X2 =', colosionX2)
-    # print('colosion Y1 =', colosionY1)
-    # print('colosion Y2 =', colosionY2)
-    # print()
-    
-
-
 
     if (recordK1[0] == 'kiri') or (recordK1[0] == 'kanan'):
         # gambar 1
@@ -944,7 +946,7 @@ def timer1(value1): #fungsi timer
             bg_lw6_y = None
         elif ((cl_lw6_x2>=colosionX1>=cl_lw6_x1 or cl_lw6_x1<=colosionX2<=cl_lw6_x2) and cl_lw6_y2>=colosionY1>=cl_lw6_y1):
             aksiColosion.append('bawah')
-        bg_lw6_y = None
+            bg_lw6_y = None
 
     # colosion antar lawan 1 ke lawan 3
     if ((cl_lw3_x2>=cl_lw1_x1>=cl_lw3_x1 or cl_lw3_x1<=cl_lw1_x2<=cl_lw3_x2) and cl_lw3_y2>=cl_lw1_y1>=cl_lw3_y1):
@@ -1016,24 +1018,203 @@ def update(value):
     glutPostRedisplay()
     glutTimerFunc(10, update, 0)
 
-def kotak():
+# def kotak():
+#     glPushMatrix()
+#     # global pos_x, pos_y
+#     glTranslate(deltaX, deltaY, 0)
+#     glBegin(GL_QUADS)
+#     glColor3ub(255, 77, 77)
+#     glVertex2f(195,210)
+#     glVertex2f(195,200)
+#     glVertex2f(205,200)
+#     glVertex2f(205,210)
+#     glEnd()
+#     glPopMatrix()
+
+def karakter_kanan():
     glPushMatrix()
-    # global pos_x, pos_y
     glTranslate(deltaX, deltaY, 0)
-    glBegin(GL_QUADS)
-    glColor3ub(255, 77, 77)
-    glVertex2f(195,210)
-    glVertex2f(195,200)
-    glVertex2f(205,200)
-    glVertex2f(205,210)
+    glBegin(GL_POLYGON)
+    glColor3ub(247, 240, 12)
+    glVertex2f(200.23179,204.91379)
+    glVertex2f(204.38224,202.59345)
+    glVertex2f(204,202)
+    glVertex2f(203.50933,201.38194)
+    glVertex2f(202.88346,200.88912)
+    glVertex2f(202.19172,200.51951)
+    glVertex2f(201.58233,200.25257)
+    glVertex2f(201.00588,200.15257)
+    glVertex2f(200.39649,200.1115)
+    glVertex2f(199.70999,200.12096)
+    glVertex2f(198.75542,200.33098)
+    glVertex2f(198.02547,200.667)
+    glVertex2f(197.39658,201.01703)
+    glVertex2f(196.70031,201.68909)
+    glVertex2f(196.29194,202.3147)
+    glVertex2f(195.87694,202.86345)
+    glVertex2f(195.638,203.58467)
+    glVertex2f(195.51225,204.47836)
+    glVertex2f(195.4871,205.38773)
+    glVertex2f(195.56255,206.01488)
+    glVertex2f(195.77634,206.67338)
+    glVertex2f(196.12846,207.33189)
+    glVertex2f(196.5183,207.92768)
+    glVertex2f(197.05906,208.57051)
+    glVertex2f(197.70041,209.04087)
+    glVertex2f(198.48011,209.44852)
+    glVertex2f(199.10889,209.69938)
+    glVertex2f(199.7754,209.80913)
+    glVertex2f(200.49221,209.84048)
+    glVertex2f(201.13357,209.74641)
+    glVertex2f(201.74978,209.57395)
+    glVertex2f(202.37856,209.29173)
+    glVertex2f(203,209)
+    glVertex2f(203.64871,208.35101)
+    glVertex2f(204,208)
+    glVertex2f(204.32779,207.37892)
     glEnd()
     glPopMatrix()
-    '''
-    glVertex2f(189,216)
-    glVertex2f(206,216)
-    glVertex2f(206,199)
-    glVertex2f(189,199)
-    '''
+
+def karakter_bawah():
+    glPushMatrix()
+    glTranslate(deltaX, deltaY, 0)
+    glColor3ub(247, 240, 12)
+    glBegin(GL_POLYGON)
+    glVertex2f(200.01217,204.81232)
+    glVertex2f(197.69841,200.8241)
+    glVertex2f(197.0928,201.17259)
+    glVertex2f(196.58035,201.67596)
+    glVertex2f(196.1145,202.17932)
+    glVertex2f(195.77287,202.77949)
+    glVertex2f(195.43124,203.5539)
+    glVertex2f(195.29148,204.34767)
+    glVertex2f(195.26042,204.98656)
+    glVertex2f(195.29148,205.62545)
+    glVertex2f(195.44677,206.26434)
+    glVertex2f(195.72628,207.01939)
+    glVertex2f(196.06791,207.67764)
+    glVertex2f(196.59588,208.29717)
+    glVertex2f(197.0928,208.68438)
+    glVertex2f(197.5276,208.97478)
+    glVertex2f(197.97793,209.2071)
+    glVertex2f(198.6146,209.43943)
+    glVertex2f(199.1581,209.59431)
+    glVertex2f(199.68607,209.61367)
+    glVertex2f(200.33827,209.57495)
+    glVertex2f(200.97494,209.57495)
+    glVertex2f(201.64267,209.34263)
+    glVertex2f(202.29487,209.03286)
+    glVertex2f(202.82285,208.60693)
+    glVertex2f(203.35082,208.31653)
+    glVertex2f(203.81668,207.73572)
+    glVertex2f(204.17383,207.19363)
+    glVertex2f(204.49993,206.45794)
+    glVertex2f(204.67075,205.74161)
+    glVertex2f(204.76392,204.94784)
+    glVertex2f(204.74839,204.17343)
+    glVertex2f(204.54652,203.5539)
+    glVertex2f(204.32912,202.91501)
+    glVertex2f(204.01855,202.31484)
+    glVertex2f(203.66139,201.86956)
+    glVertex2f(203.27318,201.46299)
+    glVertex2f(202.8539,201.11451)
+    glVertex2f(202.37252,200.84346)
+    glEnd()
+    glPopMatrix()
+
+def karakter_kiri():
+    glPushMatrix()
+    glTranslate(deltaX, deltaY, 0)
+    glBegin(GL_POLYGON)
+    glColor3ub(247, 240, 12)
+    glVertex2f(199.85639,204.92952)
+    glVertex2f(195.68735,202.63639)
+    glVertex2f(196,202)
+    glVertex2f(196.39089,201.52428)
+    glVertex2f(196.78126,201.17664)
+    glVertex2f(197.36681,200.77686)
+    glVertex2f(197.89659,200.49875)
+    glVertex2f(198.44032,200.32494)
+    glVertex2f(198.92828,200.18588)
+    glVertex2f(199.45806,200.1685)
+    glVertex2f(200.08544,200.1685)
+    glVertex2f(200.79646,200.25541)
+    glVertex2f(201.4796,200.44661)
+    glVertex2f(202.13486,200.7421)
+    glVertex2f(202.83195,201.21141)
+    glVertex2f(203.34779,201.64595)
+    glVertex2f(203.72422,202.16741)
+    glVertex2f(203.93334,202.63672)
+    glVertex2f(204.26794,203.14079)
+    glVertex2f(204.47707,203.87082)
+    glVertex2f(204.54678,205.74806)
+    glVertex2f(204.35252,206.43231)
+    glVertex2f(204.14246,206.98003)
+    glVertex2f(203.91648,207.39522)
+    glVertex2f(203.59536,207.94387)
+    glVertex2f(203.03636,208.52217)
+    glVertex2f(202.54873,208.98185)
+    glVertex2f(201.8589,209.35255)
+    glVertex2f(201.24044,209.61946)
+    glVertex2f(200.55061,209.73809)
+    glVertex2f(199.81321,209.76775)
+    glVertex2f(199.0996,209.69361)
+    glVertex2f(198.39788,209.60464)
+    glVertex2f(197.88646,209.44152)
+    glVertex2f(197.35125,209.17462)
+    glVertex2f(196.91118,208.83356)
+    glVertex2f(196.44734,208.4332)
+    glVertex2f(196.1,208)
+    glVertex2f(195.67426,207.38039)
+    glEnd()
+    glPopMatrix()
+
+def karakter_atas():
+    glPushMatrix()
+    glTranslate(deltaX, deltaY, 0)
+    glColor3ub(247, 240, 12)
+    glBegin(GL_POLYGON)
+    glVertex2f(200.01526,205.29252)
+    glVertex2f(202.3616,209.4257)
+    glVertex2f(202.90656,209.14261)
+    glVertex2f(203.39097,208.82176)
+    glVertex2f(203.73913,208.44431)
+    glVertex2f(204,208)
+    glVertex2f(204.31437,207.5384)
+    glVertex2f(204.58685,206.97222)
+    glVertex2f(204.78364,206.27392)
+    glVertex2f(204.84419,205.59449)
+    glVertex2f(204.85932,204.87732)
+    glVertex2f(204.72308,204.02803)
+    glVertex2f(204.55657,203.44297)
+    glVertex2f(204.25382,202.85791)
+    glVertex2f(203.90565,202.3106)
+    glVertex2f(203.49693,201.80103)
+    glVertex2f(202.98225,201.42357)
+    glVertex2f(202.46757,201.04611)
+    glVertex2f(202.0473,200.82158)
+    glVertex2f(201.57022,200.55164)
+    glVertex2f(201.04202,200.42418)
+    glVertex2f(199.13368,200.42418)
+    glVertex2f(198.55436,200.55164)
+    glVertex2f(197.88985,200.84904)
+    glVertex2f(197.2935,201.16769)
+    glVertex2f(196.69714,201.59255)
+    glVertex2f(196.25413,202.12362)
+    glVertex2f(195.81113,202.63346)
+    glVertex2f(195.43627,203.35572)
+    glVertex2f(195.16366,204.26917)
+    glVertex2f(195.0811,205.08326)
+    glVertex2f(195.1596,206.03747)
+    glVertex2f(195.367,206.93022)
+    glVertex2f(195.82276,207.79172)
+    glVertex2f(196.33733,208.5249)
+    glVertex2f(196.8666,209.01981)
+    glVertex2f(197.64237,209.47805)
+    glEnd()
+    glPopMatrix()
+
+
 def lawan1():
     glPushMatrix()
     glTranslate(0, dy_lw1, 0)
@@ -1050,6 +1231,7 @@ def lawan2():
     glPushMatrix()
     glTranslate(0, dy_lw2, 0)
     glBegin(GL_QUADS)
+    glColor3ub(37, 244, 37)
     glVertex2f(280, 170)
     glVertex2f(297, 170)
     glVertex2f(297, 187)
@@ -1061,6 +1243,7 @@ def lawan3():
     glPushMatrix()
     glTranslate(dx_lw3, 0, 0)
     glBegin(GL_QUADS)
+    glColor3ub(37, 244, 37)
     glVertex2f(228, 57)
     glVertex2f(245, 57)
     glVertex2f(245, 74)
@@ -1071,6 +1254,7 @@ def lawan3():
 def lawan4():
     glPushMatrix()
     glTranslate(dx_lw4, 0, 0)
+    glColor3ub(37, 244, 37)
     glBegin(GL_QUADS)
     glVertex2f(261, 306)
     glVertex2f(278, 306)
@@ -1081,6 +1265,7 @@ def lawan4():
 
 def lawan5():
     glPushMatrix()
+    glColor3ub(37, 244, 37)
     glTranslate(0, dy_lw5, 0)
     glBegin(GL_QUADS)
     glVertex2f(245, 252)
@@ -1092,6 +1277,7 @@ def lawan5():
 
 def lawan6():
     glPushMatrix()
+    glColor3ub(37, 244, 37)
     glTranslate(0, dy_lw6, 0)
     glBegin(GL_QUADS)
     glVertex2f(137, 243)
@@ -1145,6 +1331,7 @@ def showScreen():
     point[index]()
     kotakPoint()
     skor_display(angka)
+
     if sesi[0] == True:
         lawan[0]()
     if sesi[1] == True:
@@ -1158,7 +1345,15 @@ def showScreen():
     if sesi[5] == True:
         lawan[5]()
     
-    kotak()
+    # kotak()
+    if arah_karakter == 'kanan':
+        karakter_kanan()
+    elif arah_karakter == 'bawah':
+        karakter_bawah()
+    elif arah_karakter == 'kiri':
+        karakter_kiri()
+    elif arah_karakter == 'atas':
+        karakter_atas()
 
     glFlush()
     glutSwapBuffers()
@@ -1174,6 +1369,4 @@ glutIdleFunc(showScreen) # untuk menuruh opengl untuk selalu menampilkan dan mem
 glutSpecialFunc(keyboard_coba)
 glutTimerFunc(50, update, 0)
 glutTimerFunc(0, timer1, 0)
-
-
 glutMainLoop() #untuk memulai segalanya
