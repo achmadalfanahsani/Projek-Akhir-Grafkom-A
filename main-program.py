@@ -105,6 +105,7 @@ angka = 0
 arah_karakter = 'bawah'
 kecepatan = 20
 sesi = [False, False, False, False, False, False]
+start = False
 
 def keyboard_coba(key, x, y):
     global boolGerakX
@@ -113,6 +114,7 @@ def keyboard_coba(key, x, y):
     global recordK1
     global aksiColosion
     global arah_karakter
+    global start
 
     recordK1.pop()
     
@@ -153,6 +155,7 @@ def keyboard_coba(key, x, y):
         aksiColosion.clear()
         aksiColosion.append('ka')
         arah_karakter = 'kanan'
+        start = 'mulai'
        
     elif key==GLUT_KEY_LEFT:
         if aksiColosion[0] != 'kiri':
@@ -243,6 +246,7 @@ def timer1(value1): #fungsi timer
 
     # semua
     global kecepatan
+    global start
 
     # print(aksiColosion)
 
@@ -785,15 +789,19 @@ def timer1(value1): #fungsi timer
         if ((cl_lw1_y1<=colosionY1<=cl_lw1_y2 or cl_lw1_y1<=colosionY2<=cl_lw1_y2) and cl_lw1_x1<=colosionX1<=cl_lw1_x2):
             aksiColosion.append('kiri')
             bg_lw1_y = None
+            start = 'akhir'
         elif ((cl_lw1_y1<=colosionY1<=cl_lw1_y2 or cl_lw1_y1<=colosionY2<=cl_lw1_y2) and cl_lw1_x1<=colosionX2<=cl_lw1_x2):
             aksiColosion.append('kanan')
             bg_lw1_y = None
+            start = 'akhir'
         elif ((cl_lw1_x2>=colosionX1>=cl_lw1_x1 or cl_lw1_x1<=colosionX2<=cl_lw1_x2) and cl_lw1_y2>=colosionY2>=cl_lw1_y1):
             aksiColosion.append('atas')
             bg_lw1_y = None
+            start = 'akhir'
         elif ((cl_lw1_x2>=colosionX1>=cl_lw1_x1 or cl_lw1_x1<=colosionX2<=cl_lw1_x2) and cl_lw1_y2>=colosionY1>=cl_lw1_y1):
             aksiColosion.append('bawah')
             bg_lw1_y = None
+            start = 'akhir'
    
     # lawan 2
     if sesi[1] == True:
@@ -814,15 +822,19 @@ def timer1(value1): #fungsi timer
         if ((cl_lw2_y1<=colosionY1<=cl_lw2_y2 or cl_lw2_y1<=colosionY2<=cl_lw2_y2) and cl_lw2_x1<=colosionX1<=cl_lw2_x2):
             aksiColosion.append('kiri')
             bg_lw2_y = None
+            start = 'akhir'
         elif ((cl_lw2_y1<=colosionY1<=cl_lw2_y2 or cl_lw2_y1<=colosionY2<=cl_lw2_y2) and cl_lw2_x1<=colosionX2<=cl_lw2_x2):
             aksiColosion.append('kanan')
             bg_lw2_y = None
+            start = 'akhir'
         elif ((cl_lw2_x2>=colosionX1>=cl_lw2_x1 or cl_lw2_x1<=colosionX2<=cl_lw2_x2) and cl_lw2_y2>=colosionY2>=cl_lw2_y1):
             aksiColosion.append('atas')
             bg_lw2_y = None
+            start = 'akhir'
         elif ((cl_lw2_x2>=colosionX1>=cl_lw2_x1 or cl_lw2_x1<=colosionX2<=cl_lw2_x2) and cl_lw2_y2>=colosionY1>=cl_lw2_y1):
             aksiColosion.append('bawah')
             bg_lw2_y = None
+            start = 'akhir'
 
 
     # lawan 3
@@ -844,15 +856,19 @@ def timer1(value1): #fungsi timer
         if ((cl_lw3_y1<=colosionY1<=cl_lw3_y2 or cl_lw3_y1<=colosionY2<=cl_lw3_y2) and cl_lw3_x1<=colosionX1<=cl_lw3_x2):
             aksiColosion.append('kiri')
             bg_lw3_x = None
+            start = 'akhir'
         elif ((cl_lw3_y1<=colosionY1<=cl_lw3_y2 or cl_lw3_y1<=colosionY2<=cl_lw3_y2) and cl_lw3_x1<=colosionX2<=cl_lw3_x2):
             aksiColosion.append('kanan')
             bg_lw3_x = None
+            start = 'akhir'
         elif ((cl_lw3_x2>=colosionX1>=cl_lw3_x1 or cl_lw3_x1<=colosionX2<=cl_lw3_x2) and cl_lw3_y2>=colosionY2>=cl_lw3_y1):
             aksiColosion.append('atas')
             bg_lw3_x = None
+            start = 'akhir'
         elif ((cl_lw3_x2>=colosionX1>=cl_lw3_x1 or cl_lw3_x1<=colosionX2<=cl_lw3_x2) and cl_lw3_y2>=colosionY1>=cl_lw3_y1):
             aksiColosion.append('bawah')
             bg_lw3_x = None
+            start = 'akhir'
 
     # lawan 4
     if sesi[3] == True:
@@ -873,15 +889,19 @@ def timer1(value1): #fungsi timer
         if ((cl_lw4_y1<=colosionY1<=cl_lw4_y2 or cl_lw4_y1<=colosionY2<=cl_lw4_y2) and cl_lw4_x1<=colosionX1<=cl_lw4_x2):
             aksiColosion.append('kiri')
             bg_lw4_x = None
+            start = 'akhir'
         elif ((cl_lw4_y1<=colosionY1<=cl_lw4_y2 or cl_lw4_y1<=colosionY2<=cl_lw4_y2) and cl_lw4_x1<=colosionX2<=cl_lw4_x2):
             aksiColosion.append('kanan')
             bg_lw4_x = None
+            start = 'akhir'
         elif ((cl_lw4_x2>=colosionX1>=cl_lw4_x1 or cl_lw4_x1<=colosionX2<=cl_lw4_x2) and cl_lw4_y2>=colosionY2>=cl_lw4_y1):
             aksiColosion.append('atas')
             bg_lw4_x = None
+            start = 'akhir'
         elif ((cl_lw4_x2>=colosionX1>=cl_lw4_x1 or cl_lw4_x1<=colosionX2<=cl_lw4_x2) and cl_lw4_y2>=colosionY1>=cl_lw4_y1):
             aksiColosion.append('bawah')
             bg_lw4_x = None
+            start = 'akhir'
 
     # lawan 5
     if sesi[4] == True:
@@ -902,15 +922,19 @@ def timer1(value1): #fungsi timer
         if ((cl_lw5_y1<=colosionY1<=cl_lw5_y2 or cl_lw5_y1<=colosionY2<=cl_lw5_y2) and cl_lw5_x1<=colosionX1<=cl_lw5_x2):
             aksiColosion.append('kiri')
             bg_lw5_y = None
+            start = 'akhir'
         elif ((cl_lw5_y1<=colosionY1<=cl_lw5_y2 or cl_lw5_y1<=colosionY2<=cl_lw5_y2) and cl_lw5_x1<=colosionX2<=cl_lw5_x2):
             aksiColosion.append('kanan')
             bg_lw5_y = None
+            start = 'akhir'
         elif ((cl_lw5_x2>=colosionX1>=cl_lw5_x1 or cl_lw5_x1<=colosionX2<=cl_lw5_x2) and cl_lw5_y2>=colosionY2>=cl_lw5_y1):
             aksiColosion.append('atas')
             bg_lw5_y = None
+            start = 'akhir'
         elif ((cl_lw5_x2>=colosionX1>=cl_lw5_x1 or cl_lw5_x1<=colosionX2<=cl_lw5_x2) and cl_lw5_y2>=colosionY1>=cl_lw5_y1):
             aksiColosion.append('bawah')
             bg_lw5_y = None
+            start = 'akhir'
 
     # lawan 6
     if sesi[5] == True:
@@ -931,15 +955,19 @@ def timer1(value1): #fungsi timer
         if ((cl_lw6_y1<=colosionY1<=cl_lw6_y2 or cl_lw6_y1<=colosionY2<=cl_lw6_y2) and cl_lw6_x1<=colosionX1<=cl_lw6_x2):
             aksiColosion.append('kiri')
             bg_lw6_y = None
+            start = 'akhir'
         elif ((cl_lw6_y1<=colosionY1<=cl_lw6_y2 or cl_lw6_y1<=colosionY2<=cl_lw6_y2) and cl_lw6_x1<=colosionX2<=cl_lw6_x2):
             aksiColosion.append('kanan')
             bg_lw6_y = None
+            start = 'akhir'
         elif ((cl_lw6_x2>=colosionX1>=cl_lw6_x1 or cl_lw6_x1<=colosionX2<=cl_lw6_x2) and cl_lw6_y2>=colosionY2>=cl_lw6_y1):
             aksiColosion.append('atas')
             bg_lw6_y = None
+            start = 'akhir'
         elif ((cl_lw6_x2>=colosionX1>=cl_lw6_x1 or cl_lw6_x1<=colosionX2<=cl_lw6_x2) and cl_lw6_y2>=colosionY1>=cl_lw6_y1):
             aksiColosion.append('bawah')
             bg_lw6_y = None
+            start = 'akhir'
 
     # colosion antar lawan 1 ke lawan 3
     if ((cl_lw3_x2>=cl_lw1_x1>=cl_lw3_x1 or cl_lw3_x1<=cl_lw1_x2<=cl_lw3_x2) and cl_lw3_y2>=cl_lw1_y1>=cl_lw3_y1):
@@ -1005,6 +1033,30 @@ def skor_display(skor):
     glColor(0,0,0)
     glRasterPos(282, 377)
     for i in str(skor):
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ord(i))
+
+def stratDisplay(kata):
+    glColor(255,255,255)
+    glRasterPos(128, 212)
+    for i in str(kata):
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, ord(i))
+
+def stringGameOver(kata):
+    glColor(255,255,255)
+    glRasterPos(175, 233)
+    for i in str(kata):
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ord(i))
+
+def yourScore(kata):
+    glColor(0,0,0)
+    glRasterPos(175, 210)
+    for i in str(kata):
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ord(i))
+
+def finalScore(kata):
+    glColor(0,0,0)
+    glRasterPos(200, 185)
+    for i in str(kata):
         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ord(i))
 
 def update(value):
@@ -1732,79 +1784,140 @@ def showScreen():
     glLoadIdentity() # untuk mereset semua posisi grafik/bentuk
     iterate() # fungsi looping
     glColor3f(1.0, 0.0, 0.0) # untuk mewarnai objek
-
-    # Pemanggilan fungsi
-    kotakUtama()
-    #baris 1
-    gambar1()
-    gambar2()
-    gambar3()
-    gambar4()
-    gambar5()
-    gambar6()
-    gambar7()
-    gambar8()
-    gambar9()
-    gambar10()
-    gambar11()
-    gambar12()
-    gambar13()
-    gambar14()
-    gambar15()
-    # gambar16()
-    gambar17()
-    gambar18()
-    gambar19()
-    gambar20()
-    gambar21()
-    gambar22()
-    gambar23()
-    gambar24()
-    gambar25()
-    gambar26()
-    gambar27()
-    gambar28()
-    gambar29()
-
-    point[index]()
-    kotakPoint()
-    skor_display(angka)
-
-    if sesi[0] == True:
+    if start == False:
+        kotakUtama()
         badanLawan1()
         mataKiLw1()
         mataKaLw1()
-    if sesi[1] == True:
+        kotakTengah1()
         badanLw2()
         mataKiLw2()
         mataKaLw2()
-    if sesi[2] == True:
         badanLw3()
         mataKiLw3()
         mataKaLw3()
-    if sesi[3] == True:
         badanLw4()
         mataKiLw4()
         mataKaLW4()
-    if sesi[4] == True:
         badanLw5()
         mataKiLw5()
         mataKaLw5()
-    if sesi[5] == True:
         badanLw6()
         mataKiLw6()
         mataKaLw6()
-    
-    
-    # kotak()
-    if arah_karakter == 'kanan':
-        karakter_kanan()
-    elif arah_karakter == 'bawah':
-        karakter_bawah()
-    elif arah_karakter == 'kiri':
-        karakter_kiri()
-    elif arah_karakter == 'atas':
-        karakter_atas()
+
+        stratDisplay(kata='press key arrow right to start')
+    elif start == 'mulai':
+        # Pemanggilan fungsi
+        kotakUtama()
+        #baris 1
+        gambar1()
+        gambar2()
+        gambar3()
+        gambar4()
+        gambar5()
+        gambar6()
+        gambar7()
+        gambar8()
+        gambar9()
+        gambar10()
+        gambar11()
+        gambar12()
+        gambar13()
+        gambar14()
+        gambar15()
+        # gambar16()
+        gambar17()
+        gambar18()
+        gambar19()
+        gambar20()
+        gambar21()
+        gambar22()
+        gambar23()
+        gambar24()
+        gambar25()
+        gambar26()
+        gambar27()
+        gambar28()
+        gambar29()
+
+        point[index]()
+        kotakPoint()
+        skor_display(angka)
+
+        if sesi[0] == True:
+            badanLawan1()
+            mataKiLw1()
+            mataKaLw1()
+        if sesi[1] == True:
+            badanLw2()
+            mataKiLw2()
+            mataKaLw2()
+        if sesi[2] == True:
+            badanLw3()
+            mataKiLw3()
+            mataKaLw3()
+        if sesi[3] == True:
+            badanLw4()
+            mataKiLw4()
+            mataKaLW4()
+        if sesi[4] == True:
+            badanLw5()
+            mataKiLw5()
+            mataKaLw5()
+        if sesi[5] == True:
+            badanLw6()
+            mataKiLw6()
+            mataKaLw6()
+        
+        
+        # kotak()
+        if arah_karakter == 'kanan':
+            karakter_kanan()
+        elif arah_karakter == 'bawah':
+            karakter_bawah()
+        elif arah_karakter == 'kiri':
+            karakter_kiri()
+        elif arah_karakter == 'atas':
+            karakter_atas()
+    elif start == 'akhir':
+        kotakUtama()
+        #baris 1
+        gambar1()
+        gambar2()
+        gambar3()
+        gambar4()
+        gambar5()
+        gambar6()
+        gambar7()
+        gambar8()
+        gambar9()
+        gambar10()
+        gambar11()
+        gambar12()
+        gambar13()
+        gambar14()
+        gambar15()
+        # gambar16()
+        gambar17()
+        gambar18()
+        gambar19()
+        gambar20()
+        gambar21()
+        gambar22()
+        gambar23()
+        gambar24()
+        gambar25()
+        gambar26()
+        gambar27()
+        gambar28()
+        gambar29()
+
+        kotakHasilAtas()
+        kotakHasilBawah()
+        stringGameOver(kata='Game Over')
+        yourScore(kata='Your Score')
+        finalScore(angka)
 
     glFlush()
     glutSwapBuffers()
