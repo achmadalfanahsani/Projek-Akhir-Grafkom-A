@@ -12,11 +12,38 @@ from OpenGL.GLU import *
 
 def kotakUtama():
     glBegin(GL_QUADS)
-    glColor3ub(255, 191, 0)
+    glColor3ub(255, 255, 255)
     glVertex2f(30,15)
     glVertex2f(367,15)
     glVertex2f(367,374)
     glVertex2f(30,374)
+    glEnd()
+
+def kotakTengah1():
+    glColor3ub(242, 13, 242)
+    glBegin(GL_QUADS)
+    glVertex2f(97,225)
+    glVertex2f(97,200)
+    glVertex2f(305,200)
+    glVertex2f(305,225)
+    glEnd()
+
+def kotakHasilAtas():
+    glColor3ub(242, 13, 242)
+    glBegin(GL_QUADS)
+    glVertex2f(129,248)
+    glVertex2f(129,225)
+    glVertex2f(270,225)
+    glVertex2f(270,248)
+    glEnd()
+
+def kotakHasilBawah():
+    glColor3ub(140, 252, 3)
+    glBegin(GL_QUADS)
+    glVertex2f(129,170)
+    glVertex2f(129,225)
+    glVertex2f(270,225)
+    glVertex2f(270,170)
     glEnd()
 
 def kotakPoint():
