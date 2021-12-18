@@ -12,7 +12,7 @@ from OpenGL.GLU import *
 
 from maze import *
 from gambar_point import *
-from start_view import *
+from cover_game import *
 
 
 # fungsi iterasi program
