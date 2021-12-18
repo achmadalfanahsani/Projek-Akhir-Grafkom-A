@@ -12,6 +12,7 @@ from OpenGL.GLU import *
 
 from maze import *
 from gambar_point import *
+from start_view import *
 
 
 # fungsi iterasi program
@@ -41,7 +42,6 @@ colosionY2 = 210
 gerakKotakX = 1
 gerakKotakY = 1
 
-# karakter lain ?? coming soon
 
 # lawan 1
 dy_lw1 = 0
@@ -168,6 +168,13 @@ def keyboard_coba(key, x, y):
         aksiColosion.clear()
         aksiColosion.append('ka')
         arah_karakter = 'kiri'
+
+def iniHandleMouse(button, state, x, y):
+    global start
+    # Saat mengklik kanan warna kotak akan berubah menjadi warna biru dan merah
+    if button == GLUT_LEFT_BUTTON and state == GLUT_DOWN:
+        if 265<=x<=335 and 460<=y<=520:
+            start = 'mulai'
 
 def timer1(value1): #fungsi timer
     global deltaX
@@ -1785,28 +1792,37 @@ def showScreen():
     iterate() # fungsi looping
     glColor3f(1.0, 0.0, 0.0) # untuk mewarnai objek
     if start == False:
-        kotakUtama()
-        badanLawan1()
-        mataKiLw1()
-        mataKaLw1()
-        kotakTengah1()
-        badanLw2()
-        mataKiLw2()
-        mataKaLw2()
-        badanLw3()
-        mataKiLw3()
-        mataKaLw3()
-        badanLw4()
-        mataKiLw4()
-        mataKaLW4()
-        badanLw5()
-        mataKiLw5()
-        mataKaLw5()
-        badanLw6()
-        mataKiLw6()
-        mataKaLw6()
-
-        stratDisplay(kata='press key arrow right to start')
+        hurufS()
+        hurufN()
+        hurufA()
+        kotakA()
+        hurufK()
+        hurufE()
+        hurufM()
+        hurufA2()
+        kotakA2()
+        hurufN2()
+        labirin()
+        labirin2()
+        labirin3()
+        labirin4()
+        kotak()
+        kotak2()
+        kotak3()
+        kotak4()
+        kotak5()
+        kotak6()
+        kotak7()
+        kotak8()
+        kotak9()
+        kotak10()
+        kotak11()
+        kotak12()
+        kotak13()
+        kotak14()
+        karakter()
+        makanan()
+        play()
     elif start == 'mulai':
         # Pemanggilan fungsi
         kotakUtama()
@@ -1933,4 +1949,5 @@ glutIdleFunc(showScreen) # untuk menuruh opengl untuk selalu menampilkan dan mem
 glutSpecialFunc(keyboard_coba)
 glutTimerFunc(50, update, 0)
 glutTimerFunc(0, timer1, 0)
+glutMouseFunc(iniHandleMouse)
 glutMainLoop() #untuk memulai segalanya
