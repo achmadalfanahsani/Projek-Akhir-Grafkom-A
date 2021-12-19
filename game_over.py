@@ -10,7 +10,7 @@ import OpenGL.GLUT
 import OpenGL.GLU
 import math
 
-def hurufG():
+def hrfG():
     glBegin(GL_LINE_LOOP)
     glColor3ub(227, 7, 7)
     glVertex2f(120,280)
@@ -27,7 +27,7 @@ def hurufG():
     glVertex2f(119.8896582031251,273.7636718749985)
     glEnd()
 
-def hurufA():
+def hrfA():
     glBegin(GL_LINE_LOOP)
     glColor3ub(227, 7, 7)
     glVertex2f(149.2,280)
@@ -49,7 +49,7 @@ def kotakA():
     glVertex2f(172.8537207031245,268.0403613281235)
     glEnd()
 
-def hurufM():
+def hrfM():
     glBegin(GL_LINE_LOOP)
     glColor3ub(227, 7, 7)  
     glVertex2f(210.2,280)
@@ -66,7 +66,7 @@ def hurufM():
     glVertex2f(218.158759751389,280.0147459940981)
     glEnd()  
 
-def hurufE():
+def hrfE():
     glBegin(GL_LINE_LOOP)
     glColor3ub(227, 7, 7) 
     glVertex2f(280,280)
@@ -83,7 +83,7 @@ def hurufE():
     glVertex2f(340,280)
     glEnd()
 
-def hurufO():
+def hrfO():
     glBegin(GL_LINE_LOOP)
     glColor3ub(56, 25, 255)
     glVertex2f(78.2,180)
@@ -101,7 +101,7 @@ def kotakO():
     glVertex2f(114.100843190658,168.0526687849125)
     glEnd()  
 
-def hurufV():
+def hrfV():
     glBegin(GL_LINE_LOOP)
     glColor3ub(56, 25, 255)
     glVertex2f(148.8,180.1)
@@ -117,7 +117,7 @@ def hurufV():
     glVertex2f(168.7356956888422,179.9886871278278)
     glEnd()
 
-def hurufe():
+def hrfe():
     glBegin(GL_LINE_LOOP)
     glColor3ub(56, 25, 255)
     glVertex2f(220.4,180)
@@ -139,7 +139,7 @@ def kotake():
     glVertex2f(245.3233350189017,167.0992311845596)
     glEnd()
 
-def hurufR():
+def hrfR():
     glBegin(GL_LINE_LOOP)
     glColor3ub(56, 25, 255)
     glVertex2f(273.6,180)
@@ -386,62 +386,3 @@ def titik12():
     glColor3ub(255,255,255)
     glVertex2f(290,200)
     glEnd()    
-
-def iterate():
-    # ke kanan, atas, kiri, bawah
-    glViewport(-50, -20, 705, 638)
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
-    glOrtho(0, 400, 0, 400, 0.0, 1.0)
-    glMatrixMode (GL_MODELVIEW)
-    glLoadIdentity()
-
-def showScreen():
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # untuk membersihkan layar
-    glLoadIdentity() # untuk mereset semua posisi grafik/bentuk
-    iterate() # fungsi looping
-    glColor3f(1.0, 0.0, 0.0)
-    hurufG()
-    hurufA()
-    kotakA()
-    hurufM()
-    hurufE()
-    hurufO()
-    kotakO()
-    hurufV()
-    hurufe()
-    kotake()
-    hurufR()
-    garis()
-    lawan()
-    mataLawan1()
-    mataLawan2()
-    lawan2()
-    mataLawan21()
-    mataLawan22()
-    lawan3()
-    mataLawan31()
-    mataLawan32()
-    titik1()
-    titik2()
-    titik3()
-    titik4()
-    titik5()
-    titik6()
-    titik7()
-    titik8()
-    titik9()
-    titik10()
-    titik11()
-    titik12()
-
-    glutSwapBuffers()
-
-glutInit(sys.argv)  # inisialisasi glut
-glutInitDisplayMode(GLUT_RGBA) # mengatur layar supaya berwarna
-glutInitWindowSize(600, 600) # mengatur ukuran layar/window
-glutInitWindowPosition(750, 0) # mangatur posisi window
-glutCreateWindow("Snake Man") # untuk memberi nama window
-glutDisplayFunc(showScreen) # untuk menampilkan objek pada layar
-glutIdleFunc(showScreen) # untuk menuruh opengl untuk selalu menampilkan dan membuka objek
-glutMainLoop() #untuk memulai segalanya
