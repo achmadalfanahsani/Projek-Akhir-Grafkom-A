@@ -29,10 +29,10 @@ def iterate():
 
 # koordinat x dan y untuk posisi kotak utama
 deltaX = 0
-boolGerakX = False
+boolGerakX = None
 
 deltaY = 0
-boolGerakY = False
+boolGerakY = None
 boolgerakHorizontal=False
 recordK1 = ['bawah',]
 aksiColosion  = [False, True]
